@@ -1,4 +1,4 @@
-package subTest1;
+package allAgents;
 
 import jade.core.AID;
 import jade.core.Agent;

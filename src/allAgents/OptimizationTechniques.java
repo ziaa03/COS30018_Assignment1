@@ -12,7 +12,6 @@ public class OptimizationTechniques {
     private static final double CROSSOVER_RATE = 0.8;
     private static final int TOURNAMENT_SIZE = 5;
 
-    // Assuming you have a way to calculate the distance between points
     private double[][] distanceMatrix;
 
     public OptimizationTechniques(double[][] distanceMatrix) {
@@ -65,8 +64,33 @@ public class OptimizationTechniques {
     }
 
     private List<Integer> crossover(List<Integer> parent1, List<Integer> parent2) {
-        // Implement ordered crossover or another suitable crossover mechanism
-        return parent1; // Placeholder
+        int size = parent1.size();
+        List<Integer> offspring = new ArrayList<>(Collections.nCopies(size, null));
+        int cutPoint1 = (int) (Math.random() * size);
+        int cutPoint2 = (int) (Math.random() * size);
+
+        if (cutPoint1 > cutPoint2) {
+            int temp = cutPoint1;
+            cutPoint1 = cutPoint2;
+            cutPoint2 = temp;
+        }
+
+        for (int i = cutPoint1; i <= cutPoint2; i++) {
+            offspring.set(i, parent1.get(i));
+        }
+
+        int currentParent2Index = 0;
+        for (int i = 0; i < size; i++) {
+            if (offspring.get(i) == null) {
+                while (offspring.contains(parent2.get(currentParent2Index))) {
+                    currentParent2Index++;
+                }
+                offspring.set(i, parent2.get(currentParent2Index));
+                currentParent2Index++;
+            }
+        }
+
+        return offspring;
     }
 
     private void mutate(List<Integer> route) {
@@ -86,7 +110,7 @@ public class OptimizationTechniques {
         for (int i = 0; i < route.size() - 1; i++) {
             totalDistance += distanceMatrix[route.get(i)][route.get(i + 1)];
         }
-        totalDistance += distanceMatrix[route.get(route.size() - 1)][route.get(0)]; // Assuming return to start
+        totalDistance += distanceMatrix[route.get(route.size() - 1)][route.get(0)];
         return totalDistance;
     }
 

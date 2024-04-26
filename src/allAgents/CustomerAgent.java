@@ -1,44 +1,35 @@
 package allAgents;
-
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import java.util.Random;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-import java.awt.Color;
-
-class Parcel {
-    String name;
-    int weight; // Weight in some unit, e.g., kilograms
-
-    Parcel(String name, int weight) {
-        this.name = name;
-        this.weight = weight;
-    }
-}
 
 public class CustomerAgent extends Agent {
 
     private Parcel[] parcels = {
-        new Parcel("a", 5),
-        new Parcel("b", 6),
-        new Parcel("c", 7),
-        new Parcel("d", 8),
-        new Parcel("e", 9)
+            new Parcel("a", 5),
+            new Parcel("b", 6),
+            new Parcel("c", 7),
+            new Parcel("d", 8),
+            new Parcel("e", 9),
+            new Parcel("f", 10),
+            new Parcel("g", 11),
+            new Parcel("h", 12),
+            new Parcel("i", 13),
+            new Parcel("j", 14)
     };
 
     protected void setup() {
-        // Initialize the location once at the beginning for initial setup
         Random rand = new Random();
-        System.out.println("Agent initialized.");
+        System.out.println("Customer Agent initialized.");
 
-        // Add TickerBehaviour with a period between 3000 to 5000 milliseconds
-        long period = 3000 + rand.nextInt(2000); // Random period between 3 to 5 seconds
+        long period = 3000 + rand.nextInt(2000);
         addBehaviour(new ParcelTicker(this, period));
     }
 
     private class ParcelTicker extends TickerBehaviour {
-        private int[] location = new int[2]; // Location attribute as an array [x, y]
+        private int[][] locations = new int[10][2]; // Array to store locations of 10 parcels
 
         public ParcelTicker(Agent a, long period) {
             super(a, period);
@@ -47,24 +38,35 @@ public class CustomerAgent extends Agent {
         protected void onTick() {
             Random rand = new Random();
 
-            // Randomize location each tick
-            location[0] = rand.nextInt(50); // x-coordinate
-            location[1] = rand.nextInt(50); // y-coordinate
+            // Randomize locations for all parcels
+            for (int i = 0; i < 10; i++) {
+                locations[i][0] = rand.nextInt(50); // x-coordinate
+                locations[i][1] = rand.nextInt(50); // y-coordinate
+            }
 
-            // Randomly select a parcel
-            int parcelIndex = rand.nextInt(parcels.length);
-            Parcel selectedParcel = parcels[parcelIndex];
-            
-            // Print out the selected parcel and its weight
-            System.out.println("Pending delivery: " + selectedParcel.name + " Weight: " + selectedParcel.weight + " Location: (" + location[0] + ", " + location[1] + ")");
-            
+            // Construct message content with information of all parcels
+            StringBuilder messageContent = new StringBuilder();
+            for (int i = 0; i < 10; i++) {
+                Parcel parcel = parcels[i];
+                messageContent.append("Parcel: ").append(parcel.name).append(", Weight: ").append(parcel.weight)
+                        .append(", Location: (").append(locations[i][0]).append(", ").append(locations[i][1]).append(")\n");
+            }
+
+            // Create ACL message and send to MasterRoutingAgent
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
             msg.addReceiver(new AID("MasterRoutingAgent", AID.ISLOCALNAME));
-            // Including location in the message content
-            msg.setContent("Parcel drawn: " + selectedParcel.name + " Weight: " + selectedParcel.weight + " units" + " Location: (" + location[0] + ", " + location[1] + ")");
+            msg.setContent(messageContent.toString());
             send(msg);
-            
-            
+        }
+    }
+
+    private class Parcel {
+        String name;
+        int weight;
+
+        Parcel(String name, int weight) {
+            this.name = name;
+            this.weight = weight;
         }
     }
 }

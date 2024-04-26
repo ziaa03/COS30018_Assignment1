@@ -12,9 +12,9 @@ CURRENT PROGRESS: (AS OF 26/4)
 
 
 PLAN LAYOUT: 
-step 1: CA generates more than 10 parcels 
-step 2: mra broadcasts to all agents the parcels involved at diff location points (summation of parcel weight) 
-step 3: da receives capacity request from mra (then responds with their capacity) 
-step 4: mra considers da's capacity and sends a call for proposal to agents 
-step 5: all agents either accept or reject parcel delivery based on total weight, the agents who cant take everything will reject also 
-step 6: mra makes the decision to decide who to give to based on highest capacity and if that agent rejects, give to the next
+- step 1: CA generates more than 10 parcels 
+- step 2: mra broadcasts to all agents the parcels involved at diff location points (summation of parcel weight) 
+- step 3: da receives capacity request from mra (then responds with their capacity) 
+- step 4: mra considers da's capacity and sends a call for proposal to agents 
+- step 5: all agents either accept or reject parcel delivery based on total weight, the agents who cant take everything will reject also 
+- step 6: mra makes the decision to decide who to give to based on highest capacity and if that agent rejects, give to the next

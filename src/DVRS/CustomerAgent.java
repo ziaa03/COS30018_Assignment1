@@ -9,8 +9,10 @@ import java.util.*;
 
 public class CustomerAgent extends Agent
 {
-    protected void setup() {
-        System.out.println("Customer Agent initialized.");
+    protected void setup()
+    {
+        System.out.println("\u001B[30m" + "--------- INITIALISATION STATUSES ---------" + "\u001B[0m");
+        System.out.println("Customer agent is ready.");
 
         // Define four lists of parcels with names
         List<ParcelList> parcelLists = Arrays.asList(
@@ -65,7 +67,7 @@ public class CustomerAgent extends Agent
             totalWeight += parcel.weight; // Accumulate the weight of each parcel
         }
         // Print out the total weight for the current parcel list
-        System.out.println("Total Weight from all parcels in " + parcelList.name + ": " + totalWeight);
+        Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- Total weight of all parcels in " + parcelList.name + ": " + totalWeight + " ----- " + "\u001B[0m");
 
         // Create ACL message and send to MasterRoutingAgent
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);

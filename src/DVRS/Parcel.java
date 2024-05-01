@@ -6,10 +6,32 @@ public class Parcel {
     public int x;
     public int y;
 
-    public Parcel(String name, int weight, int x, int y) {
+    public Parcel(String name, int weight, int x, int y)
+    {
         this.name = name;
         this.weight = weight;
         this.x = x;
-        this.y=y;
+        this.y = y;
+    }
+
+    // getters
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getWeight()
+    {
+        return weight;
+    }
+
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
     }
 }

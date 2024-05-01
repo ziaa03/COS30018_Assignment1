@@ -5,37 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1438e983-6e19-43a2-84fd-50f8c277f320" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DVRS/CustomerAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/MasterRoutingAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/Parcel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/ParcelList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DVRS/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DVRS/GeneticAlgorithm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DVRS/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DVRS/Utilities.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APDescription.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MTPs-Main-Container.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/CustomerAgent$ParcelTicker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/CustomerAgent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/DeliveryAgent$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/DeliveryAgent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/DeliveryAgent1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/DeliveryAgent2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/DeliveryAgent3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/MasterRoutingAgent$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/MasterRoutingAgent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/OptimizationTechniques.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/allAgents/Parcel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/CustomerAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/DeliveryAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/DeliveryAgent1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/DeliveryAgent2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/DeliveryAgent3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/MasterRoutingAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/OptimizationTechniques.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/allAgents/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent$ParcelTicker.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent$ParcelTicker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Parcel.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Parcel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/ParcelList.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/ParcelList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/topology/sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/CustomerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/CustomerAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/DeliveryAgent1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/DeliveryAgent2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/DeliveryAgent3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/DeliveryAgent4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/MasterRoutingAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/MasterRoutingAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/Parcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/Parcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/ParcelList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/ParcelList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/topology/sample" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +45,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="package-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -81,9 +81,11 @@
     &quot;Application.Boot.executor&quot;: &quot;Run&quot;,
     &quot;Application.COS30018_Assignment1.executor&quot;: &quot;Run&quot;,
     &quot;Application.IS_Assignment_1.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.VRPOne.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -91,7 +93,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Debugger&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -99,11 +101,26 @@
       <recent name="C:\Users\USER\eclipse-workspace\COS30018_Assignment1\classes\production\COS30018_Assignment1\allAgents" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="COS30018_Assignment1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="jade.Boot" />
       <module name="COS30018_Assignment1" />
-      <option name="PROGRAM_PARAMETERS" value="-gui -agents &quot;customerAgent:DVRS.CustomerAgent;masterroutingAgent:DVRS.MasterRoutingAgent;deliveryAgent1:DVRS.DeliveryAgent1;deliveryAgent2:DVRS.DeliveryAgent2;deliveryAgent3:DVRS.DeliveryAgent3;deliveryAgent4:DVRS.DeliveryAgent4&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="-gui -agents &quot;customerAgent:DVRS.CustomerAgent;masterroutingAgent:DVRS.MasterRoutingAgent;deliveryAgent:DVRS.DeliveryAgent&quot;" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="DVRS.Main" />
+      <module name="COS30018_Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="DVRS.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -121,6 +138,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.COS30018_Assignment1" />
+      <item itemvalue="Application.Main" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

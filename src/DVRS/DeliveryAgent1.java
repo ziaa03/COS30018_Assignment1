@@ -5,18 +5,24 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import java.util.*;
 
 public class DeliveryAgent1 extends Agent
 {
     protected AID mraAID;
-    protected int maxCapacity = 500; // Example capacity constraint
-    protected int[] location = {25, 25}; // Constant location set to (25, 25)
+    protected int maxCapacity = 500;
+    protected int[] location = {5, 5};
     protected int currentCapacity = 0;
+    protected static int agentCount = 0;
 
-    protected void setup() {
-        // WORKING
-        System.out.println(getAID().getName() + " is ready at location: (" + location[0] + ", " + location[1] + ")");
-
+    protected void setup()
+    {
+        mraAID = new AID("masterRoutingAgent", AID.ISLOCALNAME);
+        agentCount++;
+        // Only print the status when the last agent is created
+        if (agentCount == 4) {
+            System.out.println("All delivery agents initialized and are ready at depot (starting point): (" + location[0] + ", " + location[1] + ")");
+        }
 
         // CyclicBehaviour to handle capacity request
         addBehaviour(new CyclicBehaviour(this) {
@@ -24,12 +30,14 @@ public class DeliveryAgent1 extends Agent
                 MessageTemplate mtCapacity = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
                 ACLMessage capacityMsg = myAgent.receive(mtCapacity);
                 if (capacityMsg != null) {
-                    System.out.println("Received capacity request from " + capacityMsg.getSender().getName());
+                    Utilities.printMessage(myAgent,"Received capacity request from " + capacityMsg.getSender().getLocalName() + "\n");
                     ACLMessage reply = capacityMsg.createReply();
                     reply.setPerformative(ACLMessage.INFORM);
                     reply.setContent("Capacity: " + maxCapacity + ", Location: (" + location[0] + ", " + location[1] + ")");
                     send(reply);
-                } else {
+                }
+                else
+                {
                     block();
                 }
             }
@@ -62,11 +70,12 @@ public class DeliveryAgent1 extends Agent
                 MessageTemplate msgTempCFP = MessageTemplate.MatchPerformative(ACLMessage.CFP);
                 ACLMessage cfpMsg = myAgent.receive(msgTempCFP);
                 if (cfpMsg != null) {
-                    System.out.println("Received Call for Proposal from " + cfpMsg.getSender().getName());
+                    Utilities.printMessage(myAgent,"Received Call for Proposal from " + cfpMsg.getSender().getLocalName() + "\n");
                     boolean decision = decisionCriteria(cfpMsg);
                     ACLMessage reply = cfpMsg.createReply();
-
-                    if (decision) {
+                    Random rand = new Random();
+                    boolean acceptRequest = rand.nextDouble() <= 0.8;
+                    if (acceptRequest) {
                         reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                         reply.setContent("Agent accepts the proposal: 1");
                     } else {

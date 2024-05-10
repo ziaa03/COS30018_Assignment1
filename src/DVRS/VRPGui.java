@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 public class VRPGui extends JFrame {
     private JButton solveButton;
     private JTextArea resultArea;
+    private CustomerAgent customerAgent; // added customer agent reference
 
-    public VRPGui() {
+    public VRPGui()
+    {
         // Initialize components
         solveButton = new JButton("Solve VRP");
         resultArea = new JTextArea(20, 50);
@@ -21,14 +23,17 @@ public class VRPGui extends JFrame {
         add(new JScrollPane(resultArea));
 
         // Add action listener to button
-        solveButton.addActionListener(new ActionListener() {
+        solveButton.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call your VRP solver here and output the result
-                resultArea.setText("Solving VRP...");
-                // ...
+            public void actionPerformed(ActionEvent e)
+            {
+                sendParcelsToMasterRoutingAgent();
             }
         });
+
+        // Initialize CustomerAgent
+        customerAgent = new CustomerAgent();
 
         // Add a label
         JLabel label = new JLabel("Delivery Vehicle Routing System GUI");
@@ -41,11 +46,9 @@ public class VRPGui extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new VRPGui();
-            }
-        });
+    // Method to send parcels to MasterRoutingAgent using CustomerAgent
+    private void sendParcelsToMasterRoutingAgent() {
+        // Call sendParcels method of CustomerAgent
+        customerAgent.sendParcels();
     }
 }

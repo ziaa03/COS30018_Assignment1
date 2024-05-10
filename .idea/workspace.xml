@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1438e983-6e19-43a2-84fd-50f8c277f320" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DVRS/VRPGui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APDescription.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MTPs-Main-Container.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/VRPGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/VRPGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

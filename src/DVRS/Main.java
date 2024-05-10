@@ -17,7 +17,8 @@ public class Main {
         Runtime runtime = Runtime.instance();
         AgentContainer container = runtime.createMainContainer(profile);
 
-        try {
+        try
+        {
             // Create and add the CustomerAgent
             AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CustomerAgent", new Object[0]);
             customerAgent.start();
@@ -39,10 +40,23 @@ public class Main {
             AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MasterRoutingAgent", new Object[0]);
             masterRoutingAgent.start();
 
-        } catch (StaleProxyException e)
+        }
+        catch (StaleProxyException e)
         {
             // Print stack trace if an exception occurs
             e.printStackTrace();
         }
+    }
+
+    private static void startGUI()
+    {
+        // start the gui on the even dispatch thread
+        javax.swing.SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                new VRPGui(); // Assuming this initializes and displays the GUI
+            }
+        });
     }
 }

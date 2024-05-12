@@ -6,7 +6,7 @@ import java.awt.*;
 public class RouteUI extends JFrame {
     private JPanel[][] cells;  // Array to store references to cell panels
     private JPanel gridPanel;
-    private static final int GRID_SIZE = 50;
+    private static final int GRID_SIZE = 11;
     public static final int ROW_SIZE = 50;
     public static final int COL_SIZE = 50;
 

@@ -22,24 +22,24 @@ public class Main {
 
         try {
             // Create and add the CustomerAgent
-            AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CustomerAgent", new Object[0]);
+            AgentController customerAgent = container.createNewAgent("customerAgent", "test2.CustomerAgent", new Object[0]);
             customerAgent.start();
 
             // Create and add multiple instances of the DeliveryAgent
-            AgentController deliveryAgent1 = container.createNewAgent("deliveryAgent1", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent1 = container.createNewAgent("deliveryAgent1", "test2.DeliveryAgent1", new Object[0]);
             deliveryAgent1.start();
 
-            AgentController deliveryAgent2 = container.createNewAgent("deliveryAgent2", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent2 = container.createNewAgent("deliveryAgent2", "test2.DeliveryAgent1", new Object[0]);
             deliveryAgent2.start();
 
-            AgentController deliveryAgent3 = container.createNewAgent("deliveryAgent3", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent3 = container.createNewAgent("deliveryAgent3", "test2.DeliveryAgent1", new Object[0]);
             deliveryAgent3.start();
 
-            AgentController deliveryAgent4 = container.createNewAgent("deliveryAgent4", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent4 = container.createNewAgent("deliveryAgent4", "test2.DeliveryAgent1", new Object[0]);
             deliveryAgent4.start();
 
             // Create and add the MasterRoutingAgent
-            AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MasterRoutingAgent", new Object[0]);
+            AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "test2.MasterRoutingAgent", new Object[0]);
             masterRoutingAgent.start();
             
             RouteUI ui = new RouteUI();

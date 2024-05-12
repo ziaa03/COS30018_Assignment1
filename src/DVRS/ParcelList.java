@@ -25,6 +25,11 @@ public class ParcelList {
         }
         return distances;
     }
+    
+    public List<Parcel> getParcels() {
+        return parcels;  // Returns the entire list of parcels
+    }
+
 
     private double calculateDistance(Parcel parcel1, Parcel parcel2) {
         int deltaX = parcel1.x - parcel2.x;

@@ -7,6 +7,7 @@ import jade.tools.sniffer.Agent;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
+
 import java.awt.Color;
 
 
@@ -21,6 +22,7 @@ public class Main {
 
         try {
             // Create and add the CustomerAgent
+        	
             AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CustomerAgent", new Object[0]);
             customerAgent.start();
 
@@ -43,10 +45,11 @@ public class Main {
             
             RouteUI ui = new RouteUI();
             ui.setVisible(true);
-            RandomMarker marker = new RandomMarker(ui);
+            CustomerAgent marker = new CustomerAgent(ui);
+            //RandomMarker marker = new RandomMarker(ui);
             Mover mover = new Mover(ui, marker);
             new Thread(mover).start();
-            
+
 
         } catch (StaleProxyException e)
         {

@@ -7,6 +7,8 @@ import jade.tools.sniffer.Agent;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
+import java.awt.Color;
+
 
 public class Main {
     public static void main(String[] args)
@@ -38,11 +40,22 @@ public class Main {
             // Create and add the MasterRoutingAgent
             AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MasterRoutingAgent", new Object[0]);
             masterRoutingAgent.start();
+            
+            RouteUI ui = new RouteUI();
+            ui.setVisible(true);
+            RandomMarker marker = new RandomMarker(ui);
+            Mover mover = new Mover(ui, marker);
+            new Thread(mover).start();
+            
 
         } catch (StaleProxyException e)
         {
             // Print stack trace if an exception occurs
             e.printStackTrace();
         }
+        
+        
+        
+        
     }
 }

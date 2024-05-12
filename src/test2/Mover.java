@@ -54,7 +54,7 @@ public class Mover implements Runnable {
 	            }
             
             }
-            marker.NewLocation(); // Move to a new location after return
+            marker.updateLocation(); // Move to a new location after return
             currentX = startX;  // Reset the current position to start position
             currentY = startY;
         }

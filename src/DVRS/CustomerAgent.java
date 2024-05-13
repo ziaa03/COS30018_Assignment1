@@ -9,13 +9,15 @@ import java.util.*;
 
 public class CustomerAgent extends Agent
 {
+    private List<ParcelList> parcelLists; // Declare parcelLists as an instance variable
+
     protected void setup()
     {
         System.out.println("\u001B[30m" + "--------- INITIALISATION STATUSES ---------" + "\u001B[0m");
         System.out.println("Customer agent is ready.");
 
         // Define four lists of parcels with names
-        List<ParcelList> parcelLists = Arrays.asList(
+        parcelLists = Arrays.asList(
                 new ParcelList("Region A", Arrays.asList(
                         new Parcel("a", 5, 1, 1), new Parcel("b", 10, 3, 1), new Parcel("c", 15, 0, 4), new Parcel("d", 20, 3, 3)
                 )),
@@ -28,7 +30,6 @@ public class CustomerAgent extends Agent
                 new ParcelList("Region D", Arrays.asList(
                         new Parcel("m", 80, 2, 10), new Parcel("n", 75, 0, 7), new Parcel("o", 70, 1, 6), new Parcel("p", 65, 2, 8)
                 ))
-                // Add more lists as needed
         );
 
         // Add ticker behavior to periodically send parcel lists
@@ -55,7 +56,8 @@ public class CustomerAgent extends Agent
         }
     }
 
-    private void sendParcels(ParcelList parcelList) {
+    protected String sendParcels(ParcelList parcelList)
+    {
         // Construct message content with information of parcels in the list
         StringBuilder messageContent = new StringBuilder();
         // Append the name of the parcel region
@@ -74,5 +76,13 @@ public class CustomerAgent extends Agent
         msg.addReceiver(new AID("MasterRoutingAgent", AID.ISLOCALNAME));
         msg.setContent(messageContent.toString());
         send(msg);
+
+        // Return the message content as a String
+        return messageContent.toString();
+    }
+
+    public List<ParcelList> getParcelLists()
+    {
+        return parcelLists;
     }
 }

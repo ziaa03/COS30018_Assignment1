@@ -31,4 +31,9 @@ public class ParcelList {
         int deltaY = parcel1.y - parcel2.y;
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
+
+    public List<Parcel> getParcels()
+    {
+        return parcels;
+    }
 }

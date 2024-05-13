@@ -19,8 +19,8 @@ public class Main {
 
         try
         {
-            // Create and add the CustomerAgent
-            AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CustomerAgent", new Object[0]);
+            // Create and add the CustomerAgent with GUI
+            AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CA_GuiAdapter", new Object[0]);
             customerAgent.start();
 
             // Create and add multiple instances of the DeliveryAgent
@@ -37,8 +37,11 @@ public class Main {
             deliveryAgent4.start();
 
             // Create and add the MasterRoutingAgent
-            AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MasterRoutingAgent", new Object[0]);
+            AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MRA_GuiAdapter", new Object[0]);
             masterRoutingAgent.start();
+
+            // start the gui
+            startGUI();
 
         }
         catch (StaleProxyException e)
@@ -55,7 +58,8 @@ public class Main {
         {
             public void run()
             {
-                new VRPGui(); // Assuming this initializes and displays the GUI
+                VRPGui gui = VRPGui.getInstance(); // Get the instance
+                gui.setVisible(true); // Make the GUI visible here
             }
         });
     }

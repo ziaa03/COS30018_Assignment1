@@ -50,9 +50,27 @@ public class CustomerAgent extends Agent
                     addBestRoute(bestRoute);
                     printBestRoutes();
 
+                    if(bestRoutes != null) {
+                        //VRPGui.getAbc(abc);
+                        startGUI();
+                    }
+
                 } else {
                     block();
                 }
+            }
+        });
+    }
+
+    private static void startGUI()
+    {
+        // start the gui on the even dispatch thread
+        javax.swing.SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
+                gui.setVisible(true); // Make the GUI visible here
             }
         });
     }
@@ -89,8 +107,8 @@ public class CustomerAgent extends Agent
                     .append(", Location: (").append(parcel.x).append(", ").append(parcel.y).append(")\n");
             totalWeight += parcel.weight; // Accumulate the weight of each parcel
         }
-        // Print out the total weight for the current parcel list
-        Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- Total weight of all parcels in " + parcelList.name + ": " + totalWeight + " ----- " + "\u001B[0m");
+//        // Print out the total weight for the current parcel list
+//        Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- Total weight of all parcels in " + parcelList.name + ": " + totalWeight + " ----- " + "\u001B[0m");
 
         // Create ACL message and send to MasterRoutingAgent
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
@@ -123,5 +141,6 @@ public class CustomerAgent extends Agent
         for (String route : bestRoutes) {
             System.out.println(route);
         }
+        VRPGui.setBestRoutes(bestRoutes);
     }
 }

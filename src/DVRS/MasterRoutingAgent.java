@@ -162,6 +162,8 @@ public class MasterRoutingAgent extends Agent
 
     // WORKING
     private void parseParcelMessage(ACLMessage msg) {
+        ParcelList parcelList = null;
+        Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- PARCEL INFORMATION " + ": " + " ----- " + "\u001B[0m");
         Utilities.printMessageWithoutAgent("\u001B[32m" + "Received parcel message" + "\u001B[0m" + " - " + msg.getContent() + " from " + "\u001B[36m" + msg.getSender().getLocalName() + "\u001B[0m");
         String messageContent = msg.getContent();
 
@@ -195,16 +197,14 @@ public class MasterRoutingAgent extends Agent
             }
 
             // ParcelList obj with parcels and a name
-            ParcelList parcelList = new ParcelList("Parcel List", parcels);
+            parcelList = new ParcelList("Parcel List", parcels);
 
             // Add the list of parcels to parcelLists
             parcelLists.add(parcelList);
 
             // Now you can perform any necessary actions with the parsed parcels, such as broadcasting information or making decisions
             broadcastParcelInformation();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println("Error parsing parcel message: " + messageContent);
             e.printStackTrace();
         }

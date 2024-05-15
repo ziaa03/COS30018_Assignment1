@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class VRPGui extends JFrame
 {
     private JButton solveButton;
+    private JButton showParcelsButton; // new button
     private JTextArea resultArea;
     private JPanel mapPanel;
     private static VRPGui instance;
@@ -23,6 +24,10 @@ public class VRPGui extends JFrame
         solveButton = new JButton("Begin Routing");
         resultArea = new JTextArea(25, 50);
         resultArea.setEditable(false);
+
+        // new button for showing parcels
+        showParcelsButton = new JButton("Show Parcels");
+        add(showParcelsButton); // add the button to the layout
 
         // initialise agents
         this.customerAgent = customerAgent;
@@ -49,6 +54,16 @@ public class VRPGui extends JFrame
         setLayout(new FlowLayout());
         add(solveButton);   // button
         add(new JScrollPane(resultArea));   // scrollable
+
+        // when button is clicked, calls the sendParcelsToMRA - customer send to mra their locations
+        showParcelsButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                sendParcelsToMasterRoutingAgent();
+            }
+        });
 
         // when button is clicked, calls the sendParcelsToMRA - customer send to mra their locations
         solveButton.addActionListener(new ActionListener()
@@ -170,6 +185,42 @@ public class VRPGui extends JFrame
         }
     }
 
+    // send parcel lists to MRA using CA, loop over parcellist and sendparcels() for each parcellist
+    private void sendParcelsToMasterRoutingAgent()
+    {
+        // get all parcel lists from the CA
+        List<ParcelList> parcelLists = customerAgent.getParcelLists();
+
+        // find the max x and y coordinates among all parcels - determine scaling factor for translating coordinates
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (ParcelList parcelList : parcelLists) {
+            for (Parcel parcel : parcelList.getParcels()) {
+                maxX = Math.max(maxX, parcel.getX());
+                maxY = Math.max(maxY, parcel.getY());
+            }
+        }
+
+        // hold the results
+        StringBuilder custParcelPrintingInTextArea = new StringBuilder();
+
+        // loop over each parcel list and sends it using the sendparcels method in CA class
+        for (ParcelList parcelList : parcelLists)
+        {
+            // call sendParcels method of CA and get the result
+            String parcelsInList = customerAgent.sendParcels(parcelList);
+
+            // add to printing list to be shown in text area
+            custParcelPrintingInTextArea.append(parcelsInList).append("\n");
+        }
+
+        // print results (parcel info) in the text area (scrollable area)
+        resultArea.setText(custParcelPrintingInTextArea.toString());
+
+        // redraw the map panel
+        mapPanel.repaint();
+    }
+
     // translate x coordinate to fit within the panel width
     private int translateX(int x, int maxX) {
         // adjust x coordinate based on the panel size and the maximum x value
@@ -189,8 +240,14 @@ public class VRPGui extends JFrame
         deliveryAgent1.setPosition(mapPanel.getWidth() / 2, mapPanel.getHeight() / 2);
     }
 
+    private static List<String> bestRoutes;
+
+    public static void setBestRoutes(List<String> newBestRoutes) {
+        bestRoutes = newBestRoutes;
+    }
+
     private void displayBestRoutes() {
-        List<String> bestRoutes = customerAgent.getBestRoutes();
+
         resultArea.setText(""); // Clear the text area
         if (bestRoutes.isEmpty()) {
             resultArea.append("No best routes received yet.\n");

@@ -41,7 +41,7 @@ public class Main {
             masterRoutingAgent.start();
 
             // start the gui
-            startGUI();
+            //startGUI();
 
         }
         catch (StaleProxyException e)
@@ -51,17 +51,17 @@ public class Main {
         }
     }
 
-    private static void startGUI()
-    {
-        // start the gui on the even dispatch thread
-        javax.swing.SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
-                gui.setVisible(true); // Make the GUI visible here
-            }
-        });
-    }
+//    private static void startGUI()
+//    {
+//        // start the gui on the even dispatch thread
+//        javax.swing.SwingUtilities.invokeLater(new Runnable()
+//        {
+//            public void run()
+//            {
+//                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
+//                gui.setVisible(true); // Make the GUI visible here
+//            }
+//        });
+//    }
 
 }

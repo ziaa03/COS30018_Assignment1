@@ -46,17 +46,17 @@ public class CustomerAgent extends Agent
     private void initializeParcelLists() {
         parcelLists = Arrays.asList(
                 new ParcelList("Region A", Arrays.asList(
-                        new Parcel("a", 5, 1, 1), new Parcel("b", 10, 3, 1),
-                        new Parcel("c", 15, 0, 4), new Parcel("d", 20, 3, 3))),
+                        new Parcel("a", 5, 1*5, 1*5), new Parcel("b", 10, 3*5, 1*5),
+                        new Parcel("c", 15, 0*5, 4*5), new Parcel("d", 20, 3*5, 3*5))),
                 new ParcelList("Region B", Arrays.asList(
-                        new Parcel("e", 40, 10, 2), new Parcel("f", 35, 7, 0),
-                        new Parcel("g", 30, 10, 4), new Parcel("h", 25, 6, 3))),
+                        new Parcel("e", 40, 10*5, 4*5), new Parcel("f", 35, 7*5, 0*5),
+                        new Parcel("g", 30, 10*5, 2*5), new Parcel("h", 25, 6*5, 3*5))),
                 new ParcelList("Region C", Arrays.asList(
-                        new Parcel("i", 45, 8, 6), new Parcel("j", 50, 8, 7),
-                        new Parcel("k", 55, 10, 10), new Parcel("l", 60, 10, 6))),
+                        new Parcel("i", 45, 8*5, 6*5), new Parcel("j", 50, 8*5, 7*5),
+                        new Parcel("k", 55, 10*5, 10*5), new Parcel("l", 60, 10*5, 6*5))),
                 new ParcelList("Region D", Arrays.asList(
-                        new Parcel("m", 80, 2, 10), new Parcel("n", 75, 0, 7),
-                        new Parcel("o", 70, 1, 6), new Parcel("p", 65, 2, 8)))
+                        new Parcel("m", 80, 2*5, 8*5), new Parcel("n", 75, 0*5, 7*5),
+                        new Parcel("o", 70, 1*5, 6*5), new Parcel("p", 65, 2*5, 10*5)))
         );
     }
 

@@ -7,8 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class VRPGui extends JFrame
-{
+public class VRPGui extends JFrame {
     private JButton solveButton;
     private JButton showParcelsButton; // new button
     private JTextArea resultArea;
@@ -18,8 +17,7 @@ public class VRPGui extends JFrame
     private DeliveryAgent1 deliveryAgent1;
     private MasterRoutingAgent masterRoutingAgent;
 
-    public VRPGui(CustomerAgent customerAgent, DeliveryAgent1 deliveryAgent1, MasterRoutingAgent masterRoutingAgent)
-    {
+    public VRPGui(CustomerAgent customerAgent, DeliveryAgent1 deliveryAgent1, MasterRoutingAgent masterRoutingAgent) {
         // initialise components
         solveButton = new JButton("Begin Routing");
         resultArea = new JTextArea(25, 50);
@@ -27,7 +25,6 @@ public class VRPGui extends JFrame
 
         // new button for showing parcels
         showParcelsButton = new JButton("Show Parcels");
-        add(showParcelsButton); // add the button to the layout
 
         // initialise agents
         this.customerAgent = customerAgent;
@@ -39,45 +36,71 @@ public class VRPGui extends JFrame
 
         // map panel - for parcel pts
         List<Integer> bestRoute = new ArrayList<>();   // empty best route list
-        mapPanel = new JPanel()
-        {
+        mapPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);  // overrides paint component to draw parcels on it using drawparcels method
                 drawParcels(g, bestRoute);
             }
         };
-        mapPanel.setPreferredSize(new Dimension(500, 500));
-        add(mapPanel);
 
-        // layout
-        setLayout(new FlowLayout());
-        add(solveButton);   // button
-        add(new JScrollPane(resultArea));   // scrollable
+     // layout
+        setLayout(new BorderLayout());
+
+        // Panel for map and label
+        JPanel mapContainer = new JPanel(new BorderLayout());
+        mapContainer.add(mapPanel, BorderLayout.CENTER);
+
+        JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel label = new JLabel("Delivery Vehicle Routing System GUI");
+        labelPanel.add(label);
+        mapContainer.add(labelPanel, BorderLayout.NORTH);
+
+        JPanel buttonPanelMap = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanelMap.add(showParcelsButton);
+        mapContainer.add(buttonPanelMap, BorderLayout.SOUTH);
+
+        add(mapContainer, BorderLayout.CENTER);
+
+        
+        // Panel for result area and Begin Routing button
+        JPanel resultContainer = new JPanel(new BorderLayout());
+        resultContainer.add(new JScrollPane(resultArea), BorderLayout.CENTER);
+        
+        JPanel labelPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel label2 = new JLabel(" ");
+        labelPanel2.add(label2);
+        resultContainer.add(labelPanel2, BorderLayout.NORTH);
+        
+        JPanel buttonPanelResult = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanelResult.add(solveButton);
+        resultContainer.add(buttonPanelResult, BorderLayout.SOUTH);
+
+        add(resultContainer, BorderLayout.EAST);
+
+        // Set preferred sizes for components
+        resultArea.setPreferredSize(new Dimension(250, 500));
+        mapPanel.setPreferredSize(new Dimension(500, 500));
+
+
 
         // when button is clicked, calls the sendParcelsToMRA - customer send to mra their locations
-        showParcelsButton.addActionListener(new ActionListener()
-        {
+        showParcelsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 sendParcelsToMasterRoutingAgent();
             }
         });
 
         // when button is clicked, calls the sendParcelsToMRA - customer send to mra their locations
-        solveButton.addActionListener(new ActionListener()
-        {
+        solveButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 displayBestRoutes();
             }
         });
 
-        // label
-        JLabel label = new JLabel("Delivery Vehicle Routing System GUI");
-        add(label);
+        
 
         // window setup
         setTitle("Delivery Vehicle Routing System");
@@ -87,8 +110,7 @@ public class VRPGui extends JFrame
         setPosition();
     }
 
-    private void drawParcels(Graphics g, List<Integer> currentRoute)
-    {
+    private void drawParcels(Graphics g, List<Integer> currentRoute) {
         // clear map panel before redrawing any parcels or routes - to get a clean canvas (old content might be visible)
         g.clearRect(0, 0, mapPanel.getWidth(), mapPanel.getHeight());
 
@@ -125,14 +147,12 @@ public class VRPGui extends JFrame
         g.drawString("Region D", separatorX + 10, mapPanel.getHeight() - 10);
 
         // Loop through each ParcelList
-        for (ParcelList parcelList : parcelLists)
-        {
+        for (ParcelList parcelList : parcelLists) {
             // Get the parcels for this ParcelList
             List<Parcel> parcels = parcelList.getParcels();
 
             // Loop through each Parcel in the ParcelList
-            for (Parcel parcel : parcels)
-            {
+            for (Parcel parcel : parcels) {
                 // Determine the region of the parcel based on its coordinates
                 int region = (parcel.getX() > maxX / 2 ? 1 : 0) + (parcel.getY() > maxY / 2 ? 2 : 0);
 
@@ -186,8 +206,7 @@ public class VRPGui extends JFrame
     }
 
     // send parcel lists to MRA using CA, loop over parcellist and sendparcels() for each parcellist
-    private void sendParcelsToMasterRoutingAgent()
-    {
+    private void sendParcelsToMasterRoutingAgent() {
         // get all parcel lists from the CA
         List<ParcelList> parcelLists = customerAgent.getParcelLists();
 
@@ -205,8 +224,7 @@ public class VRPGui extends JFrame
         StringBuilder custParcelPrintingInTextArea = new StringBuilder();
 
         // loop over each parcel list and sends it using the sendparcels method in CA class
-        for (ParcelList parcelList : parcelLists)
-        {
+        for (ParcelList parcelList : parcelLists) {
             // call sendParcels method of CA and get the result
             String parcelsInList = customerAgent.sendParcels(parcelList);
 
@@ -234,8 +252,7 @@ public class VRPGui extends JFrame
     }
 
     // set the DA's to the middle, following the coordinates of the middle of the map panel
-    public void setPosition()
-    {
+    public void setPosition() {
         // set the default position for the delivery agents (middle of the map panel)
         deliveryAgent1.setPosition(mapPanel.getWidth() / 2, mapPanel.getHeight() / 2);
     }
@@ -247,7 +264,6 @@ public class VRPGui extends JFrame
     }
 
     private void displayBestRoutes() {
-
         resultArea.setText(""); // Clear the text area
         if (bestRoutes.isEmpty()) {
             resultArea.append("No best routes received yet.\n");
@@ -259,10 +275,8 @@ public class VRPGui extends JFrame
         }
     }
 
-    public static VRPGui getInstance()
-    {
-        if (instance == null)
-        {
+    public static VRPGui getInstance() {
+        if (instance == null) {
             CustomerAgent customerAgent = new CustomerAgent();
             DeliveryAgent1 deliveryAgent = new DeliveryAgent1();
             MasterRoutingAgent masterRoutingAgent = new MasterRoutingAgent();

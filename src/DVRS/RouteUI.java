@@ -6,7 +6,7 @@ import java.awt.*;
 public class RouteUI extends JFrame {
     private JPanel[][] cells;  // Array to store references to cell panels
     private JPanel gridPanel;
-    private static final int GRID_SIZE = 11;
+    private static final int GRID_SIZE = 11*5;
     public static final int ROW_SIZE = 50;
     public static final int COL_SIZE = 50;
 
@@ -20,7 +20,7 @@ public class RouteUI extends JFrame {
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 JPanel cell = new JPanel();
-                cell.setBorder(BorderFactory.createLineBorder(Color.black));
+                cell.setBorder(BorderFactory.createLineBorder(Color.gray));
                 cell.setBackground(Color.white); // Set default cell color
                 cells[i][j] = cell;  // Store the cell reference in the array
                 gridPanel.add(cell);

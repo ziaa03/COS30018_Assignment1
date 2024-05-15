@@ -143,14 +143,14 @@ public class VRPGui extends JFrame {
         g.setColor(regionLabelColor);
         g.drawString("Region A", 10, separatorY - 10);
         g.drawString("Region B", separatorX + 10, separatorY - 10);
-        g.drawString("Region C", 10, mapPanel.getHeight() - 10);
-        g.drawString("Region D", separatorX + 10, mapPanel.getHeight() - 10);
+        g.drawString("Region D", 10, mapPanel.getHeight() - 10);
+        g.drawString("Region C", separatorX + 10, mapPanel.getHeight() - 10);
 
         // Loop through each ParcelList
         for (ParcelList parcelList : parcelLists) {
             // Get the parcels for this ParcelList
             List<Parcel> parcels = parcelList.getParcels();
-
+            
             // Loop through each Parcel in the ParcelList
             for (Parcel parcel : parcels) {
                 // Determine the region of the parcel based on its coordinates

@@ -24,16 +24,16 @@ public class Main {
             customerAgent.start();
 
             // Create and add multiple instances of the DeliveryAgent
-            AgentController deliveryAgent1 = container.createNewAgent("deliveryAgent1", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent1 = container.createNewAgent("deliveryAgent1", "DVRS.DA_GuiAdapter", new Object[0]);
             deliveryAgent1.start();
 
-            AgentController deliveryAgent2 = container.createNewAgent("deliveryAgent2", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent2 = container.createNewAgent("deliveryAgent2", "DVRS.DA_GuiAdapter", new Object[0]);
             deliveryAgent2.start();
 
-            AgentController deliveryAgent3 = container.createNewAgent("deliveryAgent3", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent3 = container.createNewAgent("deliveryAgent3", "DVRS.DA_GuiAdapter", new Object[0]);
             deliveryAgent3.start();
 
-            AgentController deliveryAgent4 = container.createNewAgent("deliveryAgent4", "DVRS.DeliveryAgent1", new Object[0]);
+            AgentController deliveryAgent4 = container.createNewAgent("deliveryAgent4", "DVRS.DA_GuiAdapter", new Object[0]);
             deliveryAgent4.start();
 
             // Create and add the MasterRoutingAgent
@@ -58,9 +58,10 @@ public class Main {
         {
             public void run()
             {
-                VRPGui gui = VRPGui.getInstance(); // Get the instance
+                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
                 gui.setVisible(true); // Make the GUI visible here
             }
         });
     }
+
 }

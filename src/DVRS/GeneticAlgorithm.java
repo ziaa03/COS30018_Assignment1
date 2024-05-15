@@ -80,8 +80,6 @@ public class GeneticAlgorithm {
         return bestRoute;
     }
 
-
-
     // Tournament selection
     private static List<Integer> tournamentSelection(List<List<Integer>> population, double[][] distances) {
         Random rnd = new Random();

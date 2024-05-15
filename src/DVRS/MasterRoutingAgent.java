@@ -4,7 +4,6 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-
 import java.util.*;
 
 public class MasterRoutingAgent extends Agent
@@ -226,7 +225,7 @@ public class MasterRoutingAgent extends Agent
         }
     }
 
-    private void makeDecision()
+    protected void makeDecision()
     {
         System.out.println("\u001B[30m" + "\n----- Master routing agent -----" + "\u001B[0m");
         System.out.println("Making decision on parcel assignment...");
@@ -335,17 +334,31 @@ public class MasterRoutingAgent extends Agent
                 System.out.println();
             }
 
-
             // Invoke GeneticAlgorithm to find the best route for this region
             List<Integer> bestRoute = GeneticAlgorithm.runGeneticAlgorithmForParcels(parcelList);
 
             // Print out the best route for this region
             System.out.println("\nBest route in " + regionName + ": " + bestRoute + "\n"); // Assuming the first route is the best
+            sendBestRoute(regionName, bestRoute);
         }
     }
 
-    protected void takeDown()
-    {
+    private void sendBestRoute(String regionName, List<Integer> bestRoute) {
+        // Construct the message content with the best route information
+        StringBuilder messageContent = new StringBuilder();
+        messageContent.append("Best route in ").append(regionName).append(": ").append(bestRoute.toString());
+
+        Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- Sending Best Route Information to: CustomerAgent ----- " + "\u001B[0m");
+
+        // Create an ACLMessage to send the best route information
+        ACLMessage routeMsg = new ACLMessage(ACLMessage.INFORM);
+        routeMsg.setContent(messageContent.toString());
+
+        routeMsg.addReceiver(new AID("CustomerAgent", AID.ISLOCALNAME));
+        send(routeMsg);
+    }
+
+    protected void takeDown() {
         // Perform agent cleanup here, if needed
         System.out.println("MasterRoutingAgent " + getAID().getName() + " is terminating.");
     }

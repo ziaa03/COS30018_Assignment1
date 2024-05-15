@@ -146,4 +146,9 @@ public class DeliveryAgent1 extends Agent
             System.out.println("Parcel weight exceeds the maximum capacity.");
         }
     }
+
+    public void setPosition(int x, int y) {
+        this.location[0] = x;
+        this.location[1] = y;
+    }
 }

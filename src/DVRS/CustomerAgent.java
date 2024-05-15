@@ -1,15 +1,18 @@
 package DVRS;
 
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 import java.util.*;
 
 public class CustomerAgent extends Agent
 {
     private List<ParcelList> parcelLists; // Declare parcelLists as an instance variable
+    private List<String> bestRoutes = new ArrayList();
 
     protected void setup()
     {
@@ -28,12 +31,30 @@ public class CustomerAgent extends Agent
                         new Parcel("i", 45, 8, 6), new Parcel("j", 50, 8, 7), new Parcel("k", 55, 10, 10), new Parcel("l", 60, 10, 6)
                 )),
                 new ParcelList("Region D", Arrays.asList(
-                        new Parcel("m", 80, 2, 10), new Parcel("n", 75, 0, 7), new Parcel("o", 70, 1, 6), new Parcel("p", 65, 2, 8)
+                        new Parcel("m", 80, 2, 10), new Parcel("n", 75, 0, 7), new Parcel("o", 70, 1, 6), new Parcel("p", 65, 2, 8), new Parcel("toki", 60, 3, 8)
                 ))
         );
 
         // Add ticker behavior to periodically send parcel lists
         addBehaviour(new ParcelTicker(this, parcelLists));
+
+        // Add behavior to handle incoming best route messages
+        addBehaviour(new CyclicBehaviour(this) {
+            public void action() {
+                MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+                ACLMessage msg = myAgent.receive(mt);
+                if (msg != null) {
+                    // Parse the best route
+                    String bestRoute = msg.getContent();
+                    System.out.println("Customer Agent has received: " + bestRoute + " from " + msg.getSender().getName());
+                    addBestRoute(bestRoute);
+                    printBestRoutes();
+
+                } else {
+                    block();
+                }
+            }
+        });
     }
 
     private class ParcelTicker extends TickerBehaviour {
@@ -81,8 +102,26 @@ public class CustomerAgent extends Agent
         return messageContent.toString();
     }
 
+    // Method to get the list of best routes
+    public List<String> getBestRoutes() {
+        return bestRoutes;
+    }
+
+    public void addBestRoute(String route) {
+        bestRoutes.add(route);
+        System.out.println("Best route added: " + route);
+    }
+
+
     public List<ParcelList> getParcelLists()
     {
         return parcelLists;
+    }
+
+    public void printBestRoutes() {
+        System.out.println("Current Best Routes:");
+        for (String route : bestRoutes) {
+            System.out.println(route);
+        }
     }
 }

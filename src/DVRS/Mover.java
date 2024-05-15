@@ -5,7 +5,7 @@ import java.awt.Color;
 public class Mover implements Runnable {
     private RouteUI ui;
     private CustomerAgent marker;
-    private final int startX = 5, startY = 5;  // Starting position should not change
+    private final int startX = 5*5+1, startY = 5*5+1;  // Starting position should not change
 
     public Mover(RouteUI ui, CustomerAgent marker) {
         this.ui = ui;

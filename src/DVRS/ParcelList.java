@@ -36,4 +36,9 @@ public class ParcelList {
     {
         return parcels;
     }
+
+    public void addParcel(Parcel parcel) {
+        parcels.add(parcel);
+    }
+
 }

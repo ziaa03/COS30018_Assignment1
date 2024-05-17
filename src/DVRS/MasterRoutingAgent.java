@@ -27,6 +27,7 @@ public class MasterRoutingAgent extends Agent
                 ACLMessage msg = receive();
                 if (msg != null)
                 {
+                    System.out.println("Received message: " + msg.getContent());
                     // Check if it's a route reception confirmation message
                     if (msg.getPerformative() == ACLMessage.CONFIRM && msg.getContent().equals("I received the route.")) {
                         System.out.println("Confirmation received from Delivery Agent: " + msg.getContent());

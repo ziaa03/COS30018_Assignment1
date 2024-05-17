@@ -9,12 +9,13 @@ import jade.lang.acl.MessageTemplate;
 
 import java.util.*;
 
+
 public class CustomerAgent extends Agent
 {
     private List<ParcelList> parcelLists; // Declare parcelLists as an instance variable
     private List<String> bestRoutes = new ArrayList();
 
-    protected void setup()
+    public void setup()
     {
         System.out.println("\u001B[30m" + "--------- INITIALISATION STATUSES ---------" + "\u001B[0m");
         System.out.println("Customer agent is ready.");
@@ -22,22 +23,18 @@ public class CustomerAgent extends Agent
         // Define four lists of parcels with names
         parcelLists = Arrays.asList(
                 new ParcelList("Region A", Arrays.asList(
-                        new Parcel("a", 5, 1, 1), new Parcel("b", 10, 3, 1), new Parcel("c", 15, 0, 4), new Parcel("d", 20, 3, 3)
                 )),
                 new ParcelList("Region B", Arrays.asList(
-                        new Parcel("e", 40, 10, 2), new Parcel("f", 35, 7, 0), new Parcel("g", 30, 10, 4), new Parcel("h", 25, 6, 3)
                 )),
                 new ParcelList("Region C", Arrays.asList(
-                        new Parcel("i", 45, 8, 6), new Parcel("j", 50, 8, 7), new Parcel("k", 55, 10, 10), new Parcel("l", 60, 10, 6)
                 )),
                 new ParcelList("Region D", Arrays.asList(
-                        new Parcel("m", 80, 2, 10), new Parcel("n", 75, 0, 7), new Parcel("o", 70, 1, 6), new Parcel("p", 65, 2, 8), new Parcel("toki", 60, 3, 8)
                 ))
         );
 
         // Add ticker behavior to periodically send parcel lists
-        addBehaviour(new ParcelTicker(this, parcelLists));
-
+        //addBehaviour(new ParcelTicker(this, parcelLists));
+        startGUI(CustomerAgent.this);
         // Add behavior to handle incoming best route messages
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
@@ -52,7 +49,7 @@ public class CustomerAgent extends Agent
 
                     if(bestRoutes != null) {
                         //VRPGui.getAbc(abc);
-                        startGUI();
+
                     }
 
                 } else {
@@ -62,17 +59,24 @@ public class CustomerAgent extends Agent
         });
     }
 
-    private static void startGUI()
+    private static void startGUI(CustomerAgent customerAgent)
     {
         // start the gui on the even dispatch thread
         javax.swing.SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
-                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
+                VRPGui gui = new VRPGui(customerAgent); // Pass the instance to the VRPGui constructor
                 gui.setVisible(true); // Make the GUI visible here
             }
         });
+    }
+
+    public void sendParcelsToMasterRoutingAgent() {
+        for (ParcelList parcelList : parcelLists) {
+            sendParcels(parcelList);
+        }
+        System.out.print("debugging print to check if this function is passed through");
     }
 
     private class ParcelTicker extends TickerBehaviour {
@@ -134,6 +138,16 @@ public class CustomerAgent extends Agent
     public List<ParcelList> getParcelLists()
     {
         return parcelLists;
+    }
+
+    public void addParcel(Parcel newParcel, String region) {
+        // Add the new parcel to the appropriate parcel list
+        for (ParcelList parcelList : parcelLists) {
+            if (parcelList.name.equals(region)) {
+                parcelList.addParcel(newParcel); // Add the parcel to this region only
+                break;
+            }
+        }
     }
 
     public void printBestRoutes() {

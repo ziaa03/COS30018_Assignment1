@@ -28,6 +28,8 @@ public class VRPGui extends JFrame {
         showParcelsButton = new JButton("Show All Parcels");
         showBestRoute = new JButton("Show Best Routes");
 
+        showBestRoute.setEnabled(false);
+
         resultArea = new JTextArea(25, 50);
         resultArea.setEditable(false);
 
@@ -52,18 +54,6 @@ public class VRPGui extends JFrame {
         labelPanel.add(label);
         mapContainer.add(labelPanel, BorderLayout.NORTH);
 
-        // Create the top panel and add it to the frame
-        JPanel topPanel = new JPanel();
-        JLabel topLabel = new JLabel("Region A  |  Region B");
-        topPanel.add(topLabel);
-        mapContainer.add(topPanel, BorderLayout.NORTH);
-
-        // Create the bottom panel and add it to the frame
-        JPanel bottomPanel = new JPanel();
-        JLabel bottomLabel = new JLabel("Region D  |  Region C");
-        bottomPanel.add(bottomLabel);
-        mapContainer.add(bottomPanel, BorderLayout.SOUTH);
-
         JPanel buttonPanelMap = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanelMap.add(startProcess);
         mapContainer.add(buttonPanelMap, BorderLayout.SOUTH);
@@ -84,6 +74,30 @@ public class VRPGui extends JFrame {
         resultContainer.add(buttonPanelResult, BorderLayout.SOUTH);
 
         add(resultContainer, BorderLayout.EAST);
+        
+        JPanel instructionPanel = new JPanel();
+        JTextArea instructionArea = new JTextArea(
+                "INSTRUCTION MANUAL FOR DVRS\n" +
+                        "1. Adding Parcels\n" +
+                        "Click anywhere in the designated region on the map.\n" +
+                        "A prompt will appear asking for the parcel details.\n" + "\n" +
+
+                        "2. Viewing All Parcels\n" +
+                        "Click the 'Show All Parcels' button.\n" +
+                        "A list of all added parcels will be displayed.\n" + "\n" +
+
+                        "3. Starting the Routing Process\n" +
+                        "Once you have added all the parcels, you can initiate the routing process:\n" +
+                        "Click the 'Start Routing Process' button.\n" +
+                        "The system will begin calculating the optimal routes for delivery agents based on the added parcels.\n" + "\n" +
+
+                        "4. Displaying Best Routes\n" +
+                        "Click the 'Show Best Routes' button.\n" +
+                        "The system will display the most efficient routes taken by each delivery agent to deliver the parcels."
+        );
+        instructionArea.setEditable(false); // make the text area read-only
+        instructionPanel.add(instructionArea);
+        add(instructionPanel, BorderLayout.NORTH);
 
         resultArea.setPreferredSize(new Dimension(250, 500));
         mapPanel.setPreferredSize(new Dimension(500, 500));
@@ -99,6 +113,7 @@ public class VRPGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayBestRoutes();
+                showBestRoute.setEnabled(true);
             }
         });
 
@@ -106,6 +121,7 @@ public class VRPGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 customerAgent.sendParcelsToMasterRoutingAgent();
+                showBestRoute.setEnabled(true);
             }
         });
 
@@ -159,11 +175,9 @@ public class VRPGui extends JFrame {
         g.clearRect(0, 0, mapPanel.getWidth(), mapPanel.getHeight());
         g.drawRect(0, 0, mapPanel.getWidth() - 1, mapPanel.getHeight() - 1);
 
-
-        Color regionLabelColor = Color.BLACK;
         Color separatorLineColor = Color.BLACK;
 
-        Font regionLabelFont = new Font("Arial", Font.BOLD, 12);
+        Font regionLabelFont = new Font("Arial", Font.BOLD, 32);
         g.setFont(regionLabelFont);
 
         List<ParcelList> parcelLists = customerAgent.getParcelLists();
@@ -177,11 +191,35 @@ public class VRPGui extends JFrame {
         g.drawLine(separatorX, 0, separatorX, mapPanel.getHeight() - 1);
         g.drawLine(0, separatorY, mapPanel.getWidth() - 1, separatorY);
 
-//        g.setColor(regionLabelColor);
-//        g.drawString("Region A", 10, separatorY - 10);
-//        g.drawString("Region B", separatorX + 10, separatorY - 10);
-//        g.drawString("Region D", 10, mapPanel.getHeight() - 10);
-//        g.drawString("Region C", separatorX + 10, mapPanel.getHeight() - 10);
+        // Enable anti-aliasing for better text rendering
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Draw labels for the regions in the center of each region
+        String[] regionLabels = {"Region A", "Region B", "Region D", "Region C"};
+        int[][] labelPositions = {
+                {separatorX / 2, separatorY / 2},
+                {separatorX + separatorX / 2, separatorY / 2},
+                {separatorX / 2, separatorY + separatorY / 2},
+                {separatorX + separatorX / 2, separatorY + separatorY / 2}
+        };
+
+        // Set font transparent
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
+        g2d.setColor(Color.BLACK);
+
+        for (int i = 0; i < regionLabels.length; i++) {
+            String label = regionLabels[i];
+            int x = labelPositions[i][0];
+            int y = labelPositions[i][1];
+            FontMetrics fm = g.getFontMetrics();
+            int labelWidth = fm.stringWidth(label);
+            int labelHeight = fm.getHeight();
+            g2d.drawString(label, x - labelWidth / 2, y + labelHeight / 4);
+        }
+
+        // Reset transparency for parcels and their labels
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
         for (ParcelList parcelList : parcelLists) {
 

@@ -11,7 +11,6 @@ import jade.wrapper.StaleProxyException;
 public class Main {
     public static void main(String[] args)
     {
-        // Set up the JADE container
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.GUI, "true");
         Runtime runtime = Runtime.instance();
@@ -19,11 +18,9 @@ public class Main {
 
         try
         {
-            // Create and add the CustomerAgent with GUI
             AgentController customerAgent = container.createNewAgent("customerAgent", "DVRS.CA_GuiAdapter", new Object[0]);
             customerAgent.start();
 
-            // Create and add multiple instances of the DeliveryAgent
             AgentController deliveryAgent1 = container.createNewAgent("deliveryAgent1", "DVRS.DeliveryAgent1", new Object[0]);
             deliveryAgent1.start();
 
@@ -36,32 +33,12 @@ public class Main {
             AgentController deliveryAgent4 = container.createNewAgent("deliveryAgent4", "DVRS.DeliveryAgent1", new Object[0]);
             deliveryAgent4.start();
 
-            // Create and add the MasterRoutingAgent
             AgentController masterRoutingAgent = container.createNewAgent("masterRoutingAgent", "DVRS.MasterRoutingAgent", new Object[0]);
             masterRoutingAgent.start();
-
-            // start the gui
-            //startGUI();
-
         }
         catch (StaleProxyException e)
         {
-            // Print stack trace if an exception occurs
             e.printStackTrace();
         }
     }
-
-//    private static void startGUI()
-//    {
-//        // start the gui on the even dispatch thread
-//        javax.swing.SwingUtilities.invokeLater(new Runnable()
-//        {
-//            public void run()
-//            {
-//                VRPGui gui = VRPGui.getInstance(); // Get the instance with arguments
-//                gui.setVisible(true); // Make the GUI visible here
-//            }
-//        });
-//    }
-
 }

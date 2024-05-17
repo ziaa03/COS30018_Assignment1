@@ -19,12 +19,10 @@ public class DeliveryAgent1 extends Agent
     {
         mraAID = new AID("masterRoutingAgent", AID.ISLOCALNAME);
         agentCount++;
-        // Only print the status when the last agent is created
         if (agentCount == 4) {
             System.out.println("All delivery agents initialized and are ready at depot (starting point): (" + location[0] + ", " + location[1] + ")");
         }
 
-        // CyclicBehaviour to handle capacity request
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtCapacity = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
@@ -43,7 +41,6 @@ public class DeliveryAgent1 extends Agent
             }
         });
 
-        // CyclicBehaviour to handle parcel and route information
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtParcel = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
@@ -64,7 +61,6 @@ public class DeliveryAgent1 extends Agent
             }
         });
 
-        // CyclicBehaviour to handle delivery request
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate msgTempCFP = MessageTemplate.MatchPerformative(ACLMessage.CFP);
@@ -113,21 +109,20 @@ public class DeliveryAgent1 extends Agent
             String[] weightParts = weightPart.split(": ");
             int requiredCapacity = Integer.parseInt(weightParts[1]);
 
-            // Check if the agent has sufficient capacity to handle the parcel
             if (requiredCapacity <= (maxCapacity - currentCapacity))
             {
-                return true; // Accept the proposal
+                return true;
             }
             else
             {
-                return false; // Reject the proposal
+                return false;
             }
         }
         catch (NumberFormatException e)
         {
             System.err.println("Error parsing required capacity: " + deliveryDetails);
             e.printStackTrace();
-            return false; // Default to rejection in case of parsing error
+            return false;
         }
     }
 
@@ -136,8 +131,6 @@ public class DeliveryAgent1 extends Agent
         int newCapacity = currentCapacity + parcelWeight;
         if (newCapacity <= maxCapacity) {
             currentCapacity = newCapacity;
-
-            // Inform the MRA about the capacity update (replace "mraAID" with actual AID)
             ACLMessage capacityUpdateMsg = new ACLMessage(ACLMessage.INFORM);
             capacityUpdateMsg.addReceiver(mraAID);
             capacityUpdateMsg.setContent("Current Capacity: " + currentCapacity);

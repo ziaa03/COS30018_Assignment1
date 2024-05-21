@@ -5,27 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1438e983-6e19-43a2-84fd-50f8c277f320" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent$ParcelTicker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APDescription.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/GeneticAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/GeneticAlgorithm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/CustomerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/CustomerAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/DeliveryAgent1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/DeliveryAgent1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/GeneticAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/GeneticAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DVRS/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/MasterRoutingAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/MasterRoutingAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/Parcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/Parcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DVRS/ParcelList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/ParcelList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/VRPGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/VRPGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +34,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="zia" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -96,7 +93,6 @@
   <component name="RunManager" selected="Application.Main">
     <configuration name="COS30018_Assignment1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="jade.Boot" />
-      <module name="COS30018_Assignment1" />
       <option name="PROGRAM_PARAMETERS" value="-gui -agents &quot;customerAgent:DVRS.CustomerAgent;masterroutingAgent:DVRS.MasterRoutingAgent;deliveryAgent:DVRS.DeliveryAgent&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />

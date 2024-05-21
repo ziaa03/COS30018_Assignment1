@@ -19,10 +19,12 @@ public class DeliveryAgent1 extends Agent
     {
         mraAID = new AID("masterRoutingAgent", AID.ISLOCALNAME);
         agentCount++;
+        // Only print the status when the last agent is created
         if (agentCount == 4) {
             System.out.println("All delivery agents initialized and are ready at depot (starting point): (" + location[0] + ", " + location[1] + ")");
         }
 
+        // CyclicBehaviour to handle capacity request
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtCapacity = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
@@ -31,7 +33,7 @@ public class DeliveryAgent1 extends Agent
                     Utilities.printMessage(myAgent,"Received capacity request from " + capacityMsg.getSender().getLocalName() + "\n");
                     ACLMessage reply = capacityMsg.createReply();
                     reply.setPerformative(ACLMessage.INFORM);
-                    reply.setContent("Capacity: " + maxCapacity + ", Location: (" + location[0] + ", " + location[1] + ")");
+                    reply.setContent("Capacity: " + maxCapacity);
                     send(reply);
                 }
                 else
@@ -41,19 +43,20 @@ public class DeliveryAgent1 extends Agent
             }
         });
 
+        // CyclicBehaviour to handle parcel and route information
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtParcel = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
                 ACLMessage parcelMsg = myAgent.receive(mtParcel);
                 if (parcelMsg != null) {
                     System.out.println("Parcel and route information received: " + parcelMsg.getContent() + " from " + parcelMsg.getSender().getName());
-                    int parcelWeight = extractParcelWeight(parcelMsg.getContent());
-                    updateCapacity(parcelWeight, mraAID);
-                    if (parcelMsg.getContent().contains("Path from Delivery Agent to Customer's Location:")) {
-                        ACLMessage routeReply = parcelMsg.createReply();
-                        routeReply.setPerformative(ACLMessage.CONFIRM);
-                        routeReply.setContent("I received the route.");
-                        send(routeReply);
+                    if (parcelMsg.getContent().startsWith("Parcel Weight:")) {
+                        // Handle parcel information
+                        int parcelWeight = extractParcelWeight(parcelMsg.getContent());
+                        updateCapacity(parcelWeight, mraAID);
+                    } else if (parcelMsg.getContent().startsWith("Best route in ")) {
+                        // Handle route information
+                        handleBestRoute(parcelMsg.getContent());
                     }
                 } else {
                     block();
@@ -61,6 +64,8 @@ public class DeliveryAgent1 extends Agent
             }
         });
 
+
+        // CyclicBehaviour to handle delivery request
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate msgTempCFP = MessageTemplate.MatchPerformative(ACLMessage.CFP);
@@ -100,6 +105,7 @@ public class DeliveryAgent1 extends Agent
         }
     }
 
+    // allow DAs to make decisions whether to accept or reject a delivery proposal based on available capacity
     private boolean decisionCriteria(ACLMessage cfp)
     {
         String deliveryDetails = cfp.getContent();
@@ -109,20 +115,21 @@ public class DeliveryAgent1 extends Agent
             String[] weightParts = weightPart.split(": ");
             int requiredCapacity = Integer.parseInt(weightParts[1]);
 
+            // Check if the agent has sufficient capacity to handle the parcel
             if (requiredCapacity <= (maxCapacity - currentCapacity))
             {
-                return true;
+                return true; // Accept the proposal
             }
             else
             {
-                return false;
+                return false; // Reject the proposal
             }
         }
         catch (NumberFormatException e)
         {
             System.err.println("Error parsing required capacity: " + deliveryDetails);
             e.printStackTrace();
-            return false;
+            return false; // Default to rejection in case of parsing error
         }
     }
 
@@ -131,6 +138,8 @@ public class DeliveryAgent1 extends Agent
         int newCapacity = currentCapacity + parcelWeight;
         if (newCapacity <= maxCapacity) {
             currentCapacity = newCapacity;
+
+            // Inform the MRA about the capacity update (replace "mraAID" with actual AID)
             ACLMessage capacityUpdateMsg = new ACLMessage(ACLMessage.INFORM);
             capacityUpdateMsg.addReceiver(mraAID);
             capacityUpdateMsg.setContent("Current Capacity: " + currentCapacity);
@@ -144,4 +153,17 @@ public class DeliveryAgent1 extends Agent
         this.location[0] = x;
         this.location[1] = y;
     }
+
+    // Method to handle the best route information received from the MasterRoutingAgent
+    // Method to handle the best route information received from the MasterRoutingAgent
+    private void handleBestRoute(String content) {
+        // Extract the region name and the best route
+        String[] parts = content.split(": ");
+        String regionName = parts[0].substring(12); // Extract the region name from the content
+        String bestRoute = parts[1]; // Extract the best route
+
+        // Print or process the best route information as needed
+        System.out.println("DOGFACE Delivery Agent has received: " + bestRoute);
+    }
+
 }

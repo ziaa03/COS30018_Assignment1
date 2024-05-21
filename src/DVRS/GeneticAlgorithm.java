@@ -9,7 +9,6 @@ public class GeneticAlgorithm {
     private static final int TOURNAMENT_SIZE = 5;
     private static final int MAX_GENERATIONS = 1000;
 
-    // Initialize population with random routes for the delivery vehicles
     public static List<List<Integer>> initializePopulation(int populationSize, int numParcels) {
         List<List<Integer>> population = new ArrayList<>();
         for (int i = 0; i < populationSize; i++) {
@@ -18,7 +17,6 @@ public class GeneticAlgorithm {
         return population;
     }
 
-    // Generate a random route
     private static List<Integer> randomRoute(int numParcels) {
         List<Integer> route = new ArrayList<>();
         Random rnd = new Random();
@@ -26,12 +24,11 @@ public class GeneticAlgorithm {
             route.add(i);
         }
         java.util.Collections.shuffle(route, rnd);
-        route.add(0, 0);  // Starting point at the beginning
-        route.add(0);     // Ending point at the end
+        route.add(0, 0);
+        route.add(0);
         return route;
     }
 
-    // Calculate distances between parcels
     private static double[][] calculateDistances(List<Parcel> parcels) {
         int numParcels = parcels.size();
         double[][] distances = new double[numParcels + 1][numParcels + 1];
@@ -47,8 +44,6 @@ public class GeneticAlgorithm {
         return distances;
     }
 
-
-    // Genetic algorithm execution
     public static List<Integer> runGeneticAlgorithm(List<List<Integer>> population, double[][] distances) {
         int generation = 0;
         List<Integer> bestRoute = null;
@@ -64,14 +59,12 @@ public class GeneticAlgorithm {
                 }
             }
 
-            // Tournament selection, crossover, and mutation
             List<Integer> parent1 = tournamentSelection(population, distances);
             List<Integer> parent2 = tournamentSelection(population, distances);
             List<Integer> child = crossover(parent1, parent2);
             mutate(child);
 
-            // Replace the least fit individual with the child
-            final List<Integer> finalBestRoute = bestRoute; // Make bestRoute effectively final
+            final List<Integer> finalBestRoute = bestRoute;
             population.removeIf(route -> route.equals(finalBestRoute));
             population.add(child);
 
@@ -80,7 +73,6 @@ public class GeneticAlgorithm {
         return bestRoute;
     }
 
-    // Tournament selection
     private static List<Integer> tournamentSelection(List<List<Integer>> population, double[][] distances) {
         Random rnd = new Random();
         List<Integer> bestRoute = null;
@@ -96,40 +88,30 @@ public class GeneticAlgorithm {
         return bestRoute;
     }
 
-    // Crossover
     private static List<Integer> crossover(List<Integer> parent1, List<Integer> parent2) {
         Random rnd = new Random();
         int size = parent1.size();
-        int startPos = rnd.nextInt(size - 2) + 1;  // Ensure the start and end points are not included
+        int startPos = rnd.nextInt(size - 2) + 1;
         int endPos = rnd.nextInt(size - startPos) + startPos;
 
         List<Integer> child = new ArrayList<>();
-
-        // Add initial point at the beginning
         child.add(0);
-
-        // Add genes from parent1 within the selected range
         for (int i = startPos; i < endPos; i++) {
             child.add(parent1.get(i));
         }
-
-        // Add remaining genes from parent2
         for (int gene : parent2) {
             if (!child.contains(gene)) {
                 child.add(gene);
             }
         }
-
-        // Add initial point at the end
         child.add(0);
 
         return child;
     }
 
-    // Mutation
     private static void mutate(List<Integer> route) {
         Random rnd = new Random();
-        for (int i = 1; i < route.size() - 1; i++) {  // Do not mutate the start and end points
+        for (int i = 1; i < route.size() - 1; i++) {
             if (Math.random() < MUTATION_RATE) {
                 int index1 = 1 + rnd.nextInt(route.size() - 2);
                 int index2 = 1 + rnd.nextInt(route.size() - 2);
@@ -140,7 +122,6 @@ public class GeneticAlgorithm {
         }
     }
 
-    // Evaluate route fitness
     private static double evaluateRoute(List<Integer> route, double[][] distances) {
         double fitness = 0;
         for (int i = 0; i < route.size() - 1; i++) {

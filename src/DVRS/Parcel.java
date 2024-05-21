@@ -14,7 +14,6 @@ public class Parcel {
         this.y = y;
     }
 
-    // getters
     public String getName()
     {
         return name;

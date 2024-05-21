@@ -280,6 +280,7 @@ public class MasterRoutingAgent extends Agent
             System.out.println("\nBest route in " + regionName + ": " + bestRoute + "\n");
             RegionName = regionName;
             BestRoute = bestRoute;
+            sendBestRoute(RegionName, BestRoute);
         }
     }
 

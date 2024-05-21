@@ -11,27 +11,27 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class VRPGui extends JFrame {
+    private JButton startGeneticAlgorithmButton;
     private JButton startProcess;
     private JButton showBestRoute;
-    private JButton solveButton;
     private JButton showParcelsButton; // new button
     private JTextArea resultArea;
     private JPanel mapPanel;
+    private JPanel mainPanel;
     private static VRPGui instance;
     private CustomerAgent customerAgent;
     private DeliveryAgent1 deliveryAgent1;
     private MasterRoutingAgent masterRoutingAgent;
 
-    public VRPGui(CustomerAgent customerAgent)
-    {
-        startProcess = new JButton("Start Routing Process");
-        showParcelsButton = new JButton("Show All Parcels");
+    public VRPGui(CustomerAgent customerAgent) {
+        startGeneticAlgorithmButton = new JButton("Start Genetic Algorithm");
         showBestRoute = new JButton("Show Best Routes");
-
         showBestRoute.setEnabled(false);
-
         resultArea = new JTextArea(25, 50);
         resultArea.setEditable(false);
+
+        showParcelsButton = new JButton("Show Parcels");
+        startProcess = new JButton("Start the Process");
 
         this.customerAgent = customerAgent;
 
@@ -44,8 +44,33 @@ public class VRPGui extends JFrame {
             }
         };
 
-        setLayout(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
+        JPanel startPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        startPanel.add(startGeneticAlgorithmButton);
+        add(startPanel, BorderLayout.CENTER);
 
+        setupMainGuiComponents();
+
+        startGeneticAlgorithmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                remove(startPanel);
+                add(mainPanel, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        });
+
+        setPreferredSize(new Dimension(1500, 650));
+
+        setTitle("Delivery Vehicle Routing System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+
+        setupMapPanelMouseListener();
+    }
+
+    private void setupMainGuiComponents() {
         JPanel mapContainer = new JPanel(new BorderLayout());
         mapContainer.add(mapPanel, BorderLayout.CENTER);
 
@@ -55,10 +80,12 @@ public class VRPGui extends JFrame {
         mapContainer.add(labelPanel, BorderLayout.NORTH);
 
         JPanel buttonPanelMap = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanelMap.add(startProcess);
+        buttonPanelMap.add(showParcelsButton);
+        buttonPanelMap.add(showBestRoute);
+
         mapContainer.add(buttonPanelMap, BorderLayout.SOUTH);
 
-        add(mapContainer, BorderLayout.CENTER);
+        mainPanel.add(mapContainer, BorderLayout.CENTER);
 
         JPanel resultContainer = new JPanel(new BorderLayout());
         resultContainer.add(new JScrollPane(resultArea), BorderLayout.CENTER);
@@ -69,12 +96,12 @@ public class VRPGui extends JFrame {
         resultContainer.add(labelPanel2, BorderLayout.NORTH);
 
         JPanel buttonPanelResult = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanelResult.add(showParcelsButton);
         buttonPanelResult.add(showBestRoute);
+        buttonPanelResult.add(startProcess);
         resultContainer.add(buttonPanelResult, BorderLayout.SOUTH);
 
-        add(resultContainer, BorderLayout.EAST);
-        
+        mainPanel.add(resultContainer, BorderLayout.EAST);
+
         JPanel instructionPanel = new JPanel();
         JTextArea instructionArea = new JTextArea(
                 "INSTRUCTION MANUAL FOR DVRS\n" +
@@ -95,7 +122,7 @@ public class VRPGui extends JFrame {
                         "Click the 'Show Best Routes' button.\n" +
                         "The system will display the most efficient routes taken by each delivery agent to deliver the parcels."
         );
-        instructionArea.setEditable(false); // make the text area read-only
+        instructionArea.setEditable(false);
         instructionPanel.add(instructionArea);
         add(instructionPanel, BorderLayout.NORTH);
 
@@ -105,7 +132,7 @@ public class VRPGui extends JFrame {
         showParcelsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                displayParcels();
+                sendParcelsToMasterRoutingAgent();
             }
         });
 
@@ -114,6 +141,7 @@ public class VRPGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 displayBestRoutes();
                 showBestRoute.setEnabled(true);
+                mapPanel.repaint();
             }
         });
 
@@ -124,13 +152,6 @@ public class VRPGui extends JFrame {
                 showBestRoute.setEnabled(true);
             }
         });
-
-        setTitle("Delivery Vehicle Routing System");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-
-        setupMapPanelMouseListener();
-
     }
 
     private void setupMapPanelMouseListener() {
@@ -140,13 +161,16 @@ public class VRPGui extends JFrame {
                 super.mouseClicked(e);
                 String parcelName = JOptionPane.showInputDialog("Enter parcel name:");
                 String weightInput = JOptionPane.showInputDialog("Enter parcel weight:");
-                String xInput = JOptionPane.showInputDialog("Enter x coordinate:");
-                String yInput = JOptionPane.showInputDialog("Enter y coordinate:");
-
+                String xInput = JOptionPane.showInputDialog("Enter x coordinate (0-12):");
+                String yInput = JOptionPane.showInputDialog("Enter y coordinate (0-12):");
                 try {
-                    int weight = Integer.parseInt(weightInput);
                     int x = Integer.parseInt(xInput);
                     int y = Integer.parseInt(yInput);
+                    if (x < 0 || x > 12 || y < 0 || y > 12) {
+                        JOptionPane.showMessageDialog(VRPGui.this, "Coordinates must be between 0 and 12.");
+                        return;
+                    }
+                    int weight = Integer.parseInt(weightInput);
                     String region = determineRegion(x, y);
                     Parcel newParcel = new Parcel(parcelName, weight, x, y);
                     customerAgent.addParcel(newParcel, region);
@@ -171,15 +195,12 @@ public class VRPGui extends JFrame {
     }
 
     private void drawParcels(Graphics g, List<Integer> currentRoute) {
-
         g.clearRect(0, 0, mapPanel.getWidth(), mapPanel.getHeight());
         g.drawRect(0, 0, mapPanel.getWidth() - 1, mapPanel.getHeight() - 1);
 
         Color separatorLineColor = Color.BLACK;
-
         Font regionLabelFont = new Font("Arial", Font.BOLD, 32);
         g.setFont(regionLabelFont);
-
         List<ParcelList> parcelLists = customerAgent.getParcelLists();
 
         int maxX = 12;
@@ -191,12 +212,10 @@ public class VRPGui extends JFrame {
         g.drawLine(separatorX, 0, separatorX, mapPanel.getHeight() - 1);
         g.drawLine(0, separatorY, mapPanel.getWidth() - 1, separatorY);
 
-        // Enable anti-aliasing for better text rendering
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Draw labels for the regions in the center of each region
-        String[] regionLabels = {"Region A", "Region B", "Region D", "Region C"};
+        String[] regionLabels = {"Region A", "Region B", "Region C", "Region D"};
         int[][] labelPositions = {
                 {separatorX / 2, separatorY / 2},
                 {separatorX + separatorX / 2, separatorY / 2},
@@ -204,7 +223,6 @@ public class VRPGui extends JFrame {
                 {separatorX + separatorX / 2, separatorY + separatorY / 2}
         };
 
-        // Set font transparent
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
         g2d.setColor(Color.BLACK);
 
@@ -218,11 +236,9 @@ public class VRPGui extends JFrame {
             g2d.drawString(label, x - labelWidth / 2, y + labelHeight / 4);
         }
 
-        // Reset transparency for parcels and their labels
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
         for (ParcelList parcelList : parcelLists) {
-
             List<Parcel> parcels = parcelList.getParcels();
 
             for (Parcel parcel : parcels) {
@@ -231,56 +247,128 @@ public class VRPGui extends JFrame {
                 int regionHeight = (region < 2) ? separatorY : mapPanel.getHeight() - separatorY;
                 int regionX = (region % 2 == 0) ? 0 : separatorX;
                 int regionY = (region < 2) ? 0 : separatorY;
+
                 int x = regionX + (int) ((double) (parcel.getX() - (region % 2) * maxX / 2) / (maxX / 2) * regionWidth);
                 int y = regionY + (int) ((double) (parcel.getY() - (region / 2) * maxY / 2) / (maxY / 2) * regionHeight);
 
                 g.setColor(Color.BLUE);
                 g.fillRect(x, y, 6, 6);
-
                 Font parcelLabelFont = new Font("Arial", Font.PLAIN, 12);
-
                 g.setFont(parcelLabelFont);
-
                 g.setColor(Color.BLACK);
                 g.drawString(parcel.getName(), x + 10, y + 10);
             }
+            drawBestRoutes(g);
+        }
+    }
 
-            g.setColor(Color.RED);
-            if (currentRoute != null) {
-                for (int i = 0; i < currentRoute.size() - 1; i++) {
-                    int index1 = currentRoute.get(i);
-                    int index2 = currentRoute.get(i + 1);
-                    if (index1 < parcels.size() && index2 < parcels.size()) {
-                        Parcel parcel1 = parcels.get(index1);
-                        Parcel parcel2 = parcels.get(index2);
-                        int x1 = translateX(parcel1.getX(), maxX);
-                        int y1 = translateY(parcel1.getY(), maxY);
-                        int x2 = translateX(parcel2.getX(), maxX);
-                        int y2 = translateY(parcel2.getY(), maxY);
-                        g.drawLine(x1, y1, x2, y2);
-                    } else {
-                        System.out.println("Invalid index in best route: " + index1 + ", " + index2);
+    private void drawBestRoutes(Graphics g) {
+        String[] routes = resultArea.getText().split("\n");
+
+        String[] regions = {"Region A", "Region B", "Region C", "Region D"};
+        int maxX = 12;
+        int maxY = 12;
+
+        int centerX = mapPanel.getWidth() / 2;
+        int centerY = mapPanel.getHeight() / 2;
+
+        for (String region : regions) {
+            for (String routeLine : routes) {
+                if (routeLine.startsWith("Best route in " + region)) {
+                    String[] routeStrings = routeLine.split(":")[1].replaceAll("[\\[\\]]", "").split(",");
+                    List<Integer> route = new ArrayList<>();
+                    for (String s : routeStrings) {
+                        route.add(Integer.parseInt(s.trim()));
+                    }
+                    int[] abc = {1,3,2,4};
+                    for (int i = 1; i < route.size() - 1; i++) {
+                        int currentIndex = route.get(i)-1;
+                        int nextIndex = route.get(i + 1)-1;
+                        Parcel currentParcel = getParcelByIndex(region, currentIndex);
+                        Parcel nextParcel = getParcelByIndex(region, nextIndex);
+                        if (currentParcel != null && nextParcel != null) {
+                            int x1 = translateX(currentParcel.getX(), maxX);
+                            int y1 = translateY(currentParcel.getY(), maxY);
+                            int x2 = translateX(nextParcel.getX(), maxX);
+                            int y2 = translateY(nextParcel.getY(), maxY);
+                            drawArrow(g, x1, y1, x2, y2);
+                        }
+                    }
+                    if (!route.isEmpty()) {
+                        Parcel firstParcel = getParcelByIndex(region, route.get(1)-1);
+                        if (firstParcel != null) {
+                            int x1 = centerX;
+                            int y1 = centerY;
+                            int x2 = translateX(firstParcel.getX(), maxX);
+                            int y2 = translateY(firstParcel.getY(), maxY);
+                            drawArrow(g, x1, y1, x2, y2);
+                        }
+
+                        Parcel lastParcel = getParcelByIndex(region, route.get(route.size() - 2)-1);
+                        if (lastParcel != null) {
+                            int x1 = translateX(lastParcel.getX(), maxX);
+                            int y1 = translateY(lastParcel.getY(), maxY);
+                            int x2 = centerX;
+                            int y2 = centerY;
+                            drawArrow(g, x1, y1, x2, y2);
+                        }
                     }
                 }
             }
         }
     }
 
-    public void displayParcels() {
-        List<ParcelList> parcelLists = customerAgent.getParcelLists();
-        StringBuilder parcelListText = new StringBuilder();
+    private Parcel getParcelByIndex(String region, int index) {
+        List<Parcel> parcels = customerAgent.getParcelsInRegion(region);
+        return (index >= 0 && index < parcels.size()) ? parcels.get(index) : null;
+    }
 
-        for (ParcelList parcelList : parcelLists)
-        {
-            parcelListText.append("Parcel Region: ").append(parcelList.name).append("\n");
-            for (Parcel parcel : parcelList.parcels)
-            {
-                parcelListText.append("Parcel: ").append(parcel.name).append(", Weight: ").append(parcel.weight)
-                        .append(", Location: (").append(parcel.x).append(", ").append(parcel.y).append(")\n");
+    private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) {
+        int arrowSize = 6;
+        int mx = (x1 + x2) / 2;
+        int my = (y1 + y2) / 2;
+
+        int dx = mx - x1, dy = my - y1;
+        double D = Math.sqrt(dx * dx + dy * dy);
+        double xm = D - arrowSize, xn = xm, ym = arrowSize, yn = -arrowSize, x;
+        double sin = dy / D, cos = dx / D;
+
+        x = xm * cos - ym * sin + x1;
+        ym = xm * sin + ym * cos + y1;
+        xm = x;
+
+        x = xn * cos - yn * sin + x1;
+        yn = xn * sin + yn * cos + y1;
+        xn = x;
+
+        int[] xpoints = {mx, (int) xm, (int) xn};
+        int[] ypoints = {my, (int) ym, (int) yn};
+
+        g.drawLine(x1, y1, mx, my);
+        g.fillPolygon(xpoints, ypoints, 3);
+        g.drawLine(mx, my, x2, y2);
+    }
+
+    private void sendParcelsToMasterRoutingAgent() {
+        List<ParcelList> parcelLists = customerAgent.getParcelLists();
+
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (ParcelList parcelList : parcelLists) {
+            for (Parcel parcel : parcelList.getParcels()) {
+                maxX = Math.max(maxX, parcel.getX());
+                maxY = Math.max(maxY, parcel.getY());
             }
-            parcelListText.append("\n");
         }
-        resultArea.setText(parcelListText.toString());
+
+        StringBuilder custParcelPrintingInTextArea = new StringBuilder();
+
+        for (ParcelList parcelList : parcelLists) {
+            String parcelsInList = customerAgent.sendParcels(parcelList);
+            custParcelPrintingInTextArea.append(parcelsInList).append("\n");
+        }
+        resultArea.setText(custParcelPrintingInTextArea.toString());
+        mapPanel.repaint();
     }
 
     private int translateX(int x, int maxX) {

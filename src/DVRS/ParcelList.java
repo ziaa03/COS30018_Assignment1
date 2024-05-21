@@ -41,4 +41,8 @@ public class ParcelList {
         parcels.add(parcel);
     }
 
+    public String getRegionName() {
+        return name;
+    }
+
 }

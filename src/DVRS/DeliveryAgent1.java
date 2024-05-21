@@ -31,7 +31,7 @@ public class DeliveryAgent1 extends Agent
                     Utilities.printMessage(myAgent,"Received capacity request from " + capacityMsg.getSender().getLocalName() + "\n");
                     ACLMessage reply = capacityMsg.createReply();
                     reply.setPerformative(ACLMessage.INFORM);
-                    reply.setContent("Capacity: " + maxCapacity + ", Location: (" + location[0] + ", " + location[1] + ")");
+                    reply.setContent("Capacity: " + maxCapacity);
                     send(reply);
                 }
                 else
@@ -47,13 +47,13 @@ public class DeliveryAgent1 extends Agent
                 ACLMessage parcelMsg = myAgent.receive(mtParcel);
                 if (parcelMsg != null) {
                     System.out.println("Parcel and route information received: " + parcelMsg.getContent() + " from " + parcelMsg.getSender().getName());
-                    int parcelWeight = extractParcelWeight(parcelMsg.getContent());
-                    updateCapacity(parcelWeight, mraAID);
-                    if (parcelMsg.getContent().contains("Path from Delivery Agent to Customer's Location:")) {
-                        ACLMessage routeReply = parcelMsg.createReply();
-                        routeReply.setPerformative(ACLMessage.CONFIRM);
-                        routeReply.setContent("I received the route.");
-                        send(routeReply);
+                    if (parcelMsg.getContent().startsWith("Parcel Weight:")) {
+                        // Handle parcel information
+                        int parcelWeight = extractParcelWeight(parcelMsg.getContent());
+                        updateCapacity(parcelWeight, mraAID);
+                    } else if (parcelMsg.getContent().startsWith("Best route in ")) {
+                        // Handle route information
+                        handleBestRoute(parcelMsg.getContent());
                     }
                 } else {
                     block();
@@ -108,7 +108,6 @@ public class DeliveryAgent1 extends Agent
             String weightPart = parts[1];
             String[] weightParts = weightPart.split(": ");
             int requiredCapacity = Integer.parseInt(weightParts[1]);
-
             if (requiredCapacity <= (maxCapacity - currentCapacity))
             {
                 return true;
@@ -144,4 +143,12 @@ public class DeliveryAgent1 extends Agent
         this.location[0] = x;
         this.location[1] = y;
     }
+
+    private void handleBestRoute(String content) {
+        String[] parts = content.split(": ");
+        String regionName = parts[0].substring(12);
+        String bestRoute = parts[1];
+        System.out.println("Delivery Agent has received: " + bestRoute);
+    }
+
 }

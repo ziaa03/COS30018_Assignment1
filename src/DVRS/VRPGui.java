@@ -15,13 +15,10 @@ public class VRPGui extends JFrame {
     private JButton startProcess;
     private JButton showBestRoute;
     private JButton showParcelsButton; // new button
-    private JTextArea resultArea;
+    public static JTextArea resultArea;
     private JPanel mapPanel;
     private JPanel mainPanel;
-    private static VRPGui instance;
     private CustomerAgent customerAgent;
-    private DeliveryAgent1 deliveryAgent1;
-    private MasterRoutingAgent masterRoutingAgent;
 
     public VRPGui(CustomerAgent customerAgent) {
         startGeneticAlgorithmButton = new JButton("Start Genetic Algorithm");
@@ -132,7 +129,7 @@ public class VRPGui extends JFrame {
         showParcelsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendParcelsToMasterRoutingAgent();
+                displayParcelList();
             }
         });
 
@@ -395,5 +392,20 @@ public class VRPGui extends JFrame {
                 resultArea.append(route + "\n");
             }
         }
+    }
+
+    public void displayParcelList() {
+        List<ParcelList> parcelLists = customerAgent.getParcelLists();
+        StringBuilder parcelListText = new StringBuilder();
+
+        for (ParcelList parcelList : parcelLists) {
+            parcelListText.append("Parcel Region: ").append(parcelList.name).append("\n");
+            for (Parcel parcel : parcelList.parcels) {
+                parcelListText.append("Parcel: ").append(parcel.name).append(", Weight: ").append(parcel.weight)
+                        .append(", Location: (").append(parcel.x).append(", ").append(parcel.y).append(")\n");
+            }
+            parcelListText.append("\n"); 
+        }
+        Utilities.printToGui(parcelListText.toString());
     }
 }

@@ -23,4 +23,8 @@ public class Utilities
     {
         System.out.println(message);
     }
+
+    public static void printToGui(String message) {
+        VRPGui.resultArea.append(message + "\n");
+    }
 }

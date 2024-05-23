@@ -6,19 +6,39 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.*;
 
+// MasterRoutingAgent manages the routing of parcels by receiving parcel information from CustomerAgent,
+// requesting vehicle capacities from DeliveryAgents, assinging parcels to the most suitable delivery agents
+// it uses Genetic Algorithm to find the best routes for parcel delivery and informs CustomerAgent & assigned delivery agents about the best routes
 public class MasterRoutingAgent extends Agent
 {
-    private List<ParcelList> parcelLists = new ArrayList<>();
+	// List to hold parcel lists for different regions
+    private List<ParcelList> parcelLists = new ArrayList<>(); 
+    
+    // Map to store the capacities of delivery agents, where the key is the agent's AID and the value is the capacity
     private Map<AID, Integer> agentCapacities = new HashMap<>();
-    private PriorityQueue<Map.Entry<AID, Integer>> agentProposals = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+    
+    // PriorityQueue to store agent proposals based on their capacities in descending order
+    private PriorityQueue<Map.Entry<AID, Integer>> agentProposals = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue()); 
+    
+    // Variable to store the total weight of parcels in a particular region
     private int totalWeight;
-    private String RegionName;
-    private List<Integer> BestRoute;
-    AID agentChosen;
-    int number = 0;
-    String[] abc = {"Region A", "Region B", "Region C", "Region D"};
+    
+    // Variable to store the name of the current region being processed
+    private String RegionName; 
 
+    // List to store the best route found for parcel delivery in the current region
+    private List<Integer> BestRoute; 
+    
+    // AID of the agent chosen to handle the delivery of parcels in the specific region
+    AID agentChosen; 
+    
+    // Counter to keep track of the number of regions processed
+    int number = 0; 
+    
+    // Array of region names to be processed
+    String[] abc = {"Region A", "Region B", "Region C", "Region D"}; 
 
+    // Initializes the agent, adds Cyclic behavior to handle incoming messages, request capacities from delivery agents
     protected void setup()
     {
 
@@ -56,7 +76,8 @@ public class MasterRoutingAgent extends Agent
 
         requestCapacities();
     }
-
+    
+    // Extracts parcel data from the message and creates a ParcelList object, then broadcasts this information.
     private void parseParcelMessage(ACLMessage msg) {
         ParcelList parcelList = null;
         Utilities.printMessageWithoutAgent("\u001B[30m" + "\n----- PARCEL INFORMATION " + ": " + " ----- " + "\u001B[0m");
@@ -94,7 +115,8 @@ public class MasterRoutingAgent extends Agent
             e.printStackTrace();
         }
     }
-
+    
+    // Extracts and stores capacity information or proposal values from received messages.
     private void parseVehicleMessage(ACLMessage msg)
     {
         String messageContent = msg.getContent();
@@ -135,7 +157,8 @@ public class MasterRoutingAgent extends Agent
             e.printStackTrace();
         }
     }
-
+    
+    // Sends parcel details to all registered delivery agents and removes the processed parcel list from the queue.
     private void broadcastParcelInformation() {
         if (!parcelLists.isEmpty()) {
             ParcelList parcelList = parcelLists.get(0);
@@ -167,7 +190,7 @@ public class MasterRoutingAgent extends Agent
         }
     }
 
-
+    // Sends a capacity request message to all delivery agents
     private void requestCapacities()
     {
         String[] agentNames = {"DeliveryAgent1", "DeliveryAgent2", "DeliveryAgent3", "DeliveryAgent4"};
@@ -182,6 +205,7 @@ public class MasterRoutingAgent extends Agent
         }
     }
 
+    // Chooses the best-suited delivery agent and sends an acceptance or rejection message.
     protected void makeDecision()
     {
         System.out.println("\u001B[30m" + "\n----- Master routing agent -----" + "\u001B[0m");
@@ -241,7 +265,9 @@ public class MasterRoutingAgent extends Agent
         }
         sendBestRoute(RegionName, BestRoute);
     }
-
+    
+    // processes parcel information for different regions, creates parcel lists, calculates the distance matrix, 
+    // and determines the best route for each region using genetic algorithm.
     private void processParcelLists(String content) {
         String[] regions = content.split("Parcel Region: ");
         for (int i = 1; i < regions.length; i++) {
@@ -283,7 +309,8 @@ public class MasterRoutingAgent extends Agent
             sendBestRoute(RegionName, BestRoute);
         }
     }
-
+    
+    // This function sends the best route information to the CustomerAgent and the chosen DeliveryAgent.
     private void sendBestRoute(String regionName, List<Integer> bestRoute)
     {
         StringBuilder messageContent = new StringBuilder();
@@ -299,7 +326,8 @@ public class MasterRoutingAgent extends Agent
         routeMsgDeli.addReceiver(agentChosen);
         send(routeMsgDeli);
     }
-
+    
+    // This function is called when the agent is terminating
     protected void takeDown() {
         System.out.println("MasterRoutingAgent " + getAID().getName() + " is terminating.");
     }

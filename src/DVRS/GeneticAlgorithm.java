@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//The GeneticAlgorithm class provides methods for solving the vehicle routing problem using a genetic algorithm.
 public class GeneticAlgorithm {
-    private static final double MUTATION_RATE = 0.1;
-    private static final int TOURNAMENT_SIZE = 5;
-    private static final int MAX_GENERATIONS = 1000;
-
+	// Constants for genetic algorithm parameters
+    private static final double MUTATION_RATE = 0.1; // The probability of mutation in the genetic algorithm.
+    private static final int TOURNAMENT_SIZE = 5; // The size of the tournament selection pool.
+    private static final int MAX_GENERATIONS = 1000; // The maximum number of generations for the genetic algorithm.
+    
+    // Initializes the population with random routes.
     public static List<List<Integer>> initializePopulation(int populationSize, int numParcels) {
         List<List<Integer>> population = new ArrayList<>();
         for (int i = 0; i < populationSize; i++) {
@@ -16,7 +19,8 @@ public class GeneticAlgorithm {
         }
         return population;
     }
-
+    
+    // Generates a random route for a given number of parcels.
     private static List<Integer> randomRoute(int numParcels) {
         List<Integer> route = new ArrayList<>();
         Random rnd = new Random();
@@ -28,7 +32,8 @@ public class GeneticAlgorithm {
         route.add(0);
         return route;
     }
-
+    
+    // Calculates distances between parcels to create a distance matrix.
     private static double[][] calculateDistances(List<Parcel> parcels) {
         int numParcels = parcels.size();
         double[][] distances = new double[numParcels + 1][numParcels + 1];
@@ -43,13 +48,15 @@ public class GeneticAlgorithm {
         }
         return distances;
     }
-
+    
+    // Runs the genetic algorithm to find the best route.
     public static List<Integer> runGeneticAlgorithm(List<List<Integer>> population, double[][] distances) {
         int generation = 0;
         List<Integer> bestRoute = null;
         double bestFitness = Double.MAX_VALUE;
 
-        while (generation < MAX_GENERATIONS) {
+        // The loop terminates when reaches the MAX_GENERATIONS limit, and the best route found during the iterations is returned
+        while (generation < MAX_GENERATIONS) { 
             for (int i = 0; i < population.size(); i++) {
                 List<Integer> route = population.get(i);
                 double fitness = evaluateRoute(route, distances);
@@ -72,7 +79,8 @@ public class GeneticAlgorithm {
         }
         return bestRoute;
     }
-
+    
+    // Selects parents for crossover using tournament selection.
     private static List<Integer> tournamentSelection(List<List<Integer>> population, double[][] distances) {
         Random rnd = new Random();
         List<Integer> bestRoute = null;
@@ -87,7 +95,9 @@ public class GeneticAlgorithm {
         }
         return bestRoute;
     }
-
+    
+    // Performs crossover operation between parents to create a child route
+    // Swap the segments of parent routes between the crossover points to create new routes for offspring. 
     private static List<Integer> crossover(List<Integer> parent1, List<Integer> parent2) {
         Random rnd = new Random();
         int size = parent1.size();
@@ -108,7 +118,9 @@ public class GeneticAlgorithm {
 
         return child;
     }
-
+    
+    // Mutates the child route with a given mutation rate.
+    // Swap stops within a route, transforming the original route into the mutated route 
     private static void mutate(List<Integer> route) {
         Random rnd = new Random();
         for (int i = 1; i < route.size() - 1; i++) {
@@ -121,7 +133,8 @@ public class GeneticAlgorithm {
             }
         }
     }
-
+    
+    // Evaluates the fitness of a route based on total distance traveled.
     private static double evaluateRoute(List<Integer> route, double[][] distances) {
         double fitness = 0;
         for (int i = 0; i < route.size() - 1; i++) {
@@ -129,7 +142,8 @@ public class GeneticAlgorithm {
         }
         return fitness;
     }
-
+    
+    // Runs the genetic algorithm for a given parcel list.
     public static List<Integer> runGeneticAlgorithmForParcels(ParcelList parcelList) {
         List<Parcel> parcels = parcelList.parcels;
         int numParcels = parcels.size();

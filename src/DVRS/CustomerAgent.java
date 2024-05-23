@@ -9,12 +9,16 @@ import jade.lang.acl.MessageTemplate;
 
 import java.util.*;
 
-
+// CustomerAgent class manages parcels for different regions and sends them to the MasterRoutingAgent
 public class CustomerAgent extends Agent
 {
+	// List to hold ParcelList objects, each representing a collection of parcels for a specific region
     private List<ParcelList> parcelLists;
+    
+    // List to store the best routes for parcel delivery, received from the MasterRoutingAgent
     private List<String> bestRoutes = new ArrayList();
 
+    // initializes the agent, sets up the GUI, adds Cyclic Behavior to handle incoming messages
     public void setup()
     {
         System.out.println("\u001B[30m" + "--------- INITIALISATION STATUSES ---------" + "\u001B[0m");
@@ -51,7 +55,8 @@ public class CustomerAgent extends Agent
             }
         });
     }
-
+    
+    // A static method to initialize and show the GUI for the agent
     private static void startGUI(CustomerAgent customerAgent)
     {
         javax.swing.SwingUtilities.invokeLater(new Runnable()
@@ -63,13 +68,17 @@ public class CustomerAgent extends Agent
             }
         });
     }
-
+    
+    // Sends all parcels to the MasterRoutingAgent
     public void sendParcelsToMasterRoutingAgent() {
         for (ParcelList parcelList : parcelLists) {
             sendParcels(parcelList);
         }
     }
-
+    
+    // Sends the parcels of a specific region to the MasterRoutingAgent
+    // Constructs message content with parcel details
+    // ACLMessage msg: Creates and sends an ACLMessage to the MRA with the constructed content
     protected String sendParcels(ParcelList parcelList)
     {
         StringBuilder messageContent = new StringBuilder();
@@ -86,11 +95,13 @@ public class CustomerAgent extends Agent
         send(msg);
         return messageContent.toString();
     }
-
+    
+    // Returns the list of best routes
     public List<String> getBestRoutes() {
         return bestRoutes;
     }
-
+    
+    // Retrieves parcels for a specific region
     public List<Parcel> getParcelsInRegion(String region) {
         List<Parcel> parcelsInRegion = new ArrayList<>();
         for (ParcelList parcelList : getParcelLists()) {
@@ -100,7 +111,8 @@ public class CustomerAgent extends Agent
         }
         return parcelsInRegion;
     }
-
+    
+    // Adds a new best route to the list, ensuring no duplicate regions
     public void addBestRoute(String route) {
         for (String newRoute : bestRoutes) {
             if (newRoute.contains("Region A") && route.contains("Region A")) {
@@ -123,12 +135,14 @@ public class CustomerAgent extends Agent
         bestRoutes.add(route);
         System.out.println("Best route added: " + route);
     }
-
+    
+    // Returns the list of parcel lists
     public List<ParcelList> getParcelLists()
     {
         return parcelLists;
     }
-
+    
+    // Adds a new parcel to a specified region
     public void addParcel(Parcel newParcel, String region) {
         for (ParcelList parcelList : parcelLists) {
             if (parcelList.name.equals(region)) {
@@ -137,7 +151,8 @@ public class CustomerAgent extends Agent
             }
         }
     }
-
+    
+    // Prints the current best routes and updates the GUI
     public void printBestRoutes() {
         System.out.println("Current Best Routes:");
         for (String route : bestRoutes) {

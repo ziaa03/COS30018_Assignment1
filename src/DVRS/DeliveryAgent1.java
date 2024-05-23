@@ -7,14 +7,17 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import java.util.*;
 
+// The DeliveryAgents handles requests related to its capacity, 
+// receives parcel and route information, and responds to calls for proposals.
 public class DeliveryAgent1 extends Agent
 {
-    protected AID mraAID;
-    protected int maxCapacity = 500;
-    protected int[] location = {5, 5};
-    protected int currentCapacity = 0;
-    protected static int agentCount = 0;
+    protected AID mraAID; // AID of the MasterRoutingAgent
+    protected int maxCapacity = 500; // Maximum capacity of the delivery agent
+    protected int[] location = {5, 5}; // Current location of the delivery agent (depot location)
+    protected int currentCapacity = 0; // Current load of the delivery agent
+    protected static int agentCount = 0; // Counter for the number of delivery agents initialized
 
+    // Initializes the agent and adds its behaviors
     protected void setup()
     {
         mraAID = new AID("masterRoutingAgent", AID.ISLOCALNAME);
@@ -22,7 +25,8 @@ public class DeliveryAgent1 extends Agent
         if (agentCount == 4) {
             System.out.println("All delivery agents initialized and are ready at depot (starting point): (" + location[0] + ", " + location[1] + ")");
         }
-
+        
+     // Add behavior to handle capacity requests
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtCapacity = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
@@ -40,7 +44,8 @@ public class DeliveryAgent1 extends Agent
                 }
             }
         });
-
+        
+     // Add behavior to handle parcel and route information
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate mtParcel = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
@@ -60,7 +65,8 @@ public class DeliveryAgent1 extends Agent
                 }
             }
         });
-
+        
+     // Add behavior to handle calls for proposals (CFP)
         addBehaviour(new CyclicBehaviour(this) {
             public void action() {
                 MessageTemplate msgTempCFP = MessageTemplate.MatchPerformative(ACLMessage.CFP);
@@ -86,6 +92,8 @@ public class DeliveryAgent1 extends Agent
         });
     }
 
+
+    // This function extracts the weight of a parcel from a message string.
     private int extractParcelWeight(String parcelMsgWeight)
     {
         // WORKING
@@ -99,7 +107,8 @@ public class DeliveryAgent1 extends Agent
             throw new IllegalArgumentException("Parcel message does not contain weight information.");
         }
     }
-
+    
+    // This function determines whether the agent can accept a call for proposal based on its current capacity.
     private boolean decisionCriteria(ACLMessage cfp)
     {
         String deliveryDetails = cfp.getContent();
@@ -124,7 +133,8 @@ public class DeliveryAgent1 extends Agent
             return false;
         }
     }
-
+    
+    // This function updates the current capacity of the agent after receiving a new parcel.
     protected void updateCapacity(int parcelWeight, AID mraAID)
     {
         int newCapacity = currentCapacity + parcelWeight;
@@ -138,12 +148,14 @@ public class DeliveryAgent1 extends Agent
             System.out.println("Parcel weight exceeds the maximum capacity.");
         }
     }
-
+    
+    // This function sets the current position of the delivery agent.
     public void setPosition(int x, int y) {
         this.location[0] = x;
         this.location[1] = y;
     }
-
+    
+    // This function handles the best route information received from the master routing agent.
     private void handleBestRoute(String content) {
         String[] parts = content.split(": ");
         String regionName = parts[0].substring(12);

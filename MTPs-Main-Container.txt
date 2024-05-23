@@ -1,1 +1,1 @@
-http://DESKTOP-VQT9STC.realtek:7778/acc
+http://DESKTOP-VQT9STC:7778/acc

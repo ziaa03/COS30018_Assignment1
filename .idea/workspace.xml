@@ -8,15 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APDescription.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MTPs-Main-Container.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/DeliveryAgent1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/CustomerAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/GeneticAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/GeneticAlgorithm.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Parcel.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/Parcel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/ParcelList.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/ParcelList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DVRS/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/Utilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/MasterRoutingAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/COS30018_Assignment1/DVRS/VRPGui.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DVRS/VRPGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DVRS/VRPGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -25,7 +25,7 @@ public class VRPGui extends JFrame {
     // Constructor
     public VRPGui(CustomerAgent customerAgent) {
     	// Initialize GUI components
-        startGeneticAlgorithmButton = new JButton("Start Genetic Algorithm");
+        startGeneticAlgorithmButton = new JButton("Start Delivery Vehicle Routing System");
         showBestRoute = new JButton("Show Best Routes");
         showBestRoute.setEnabled(false);
         resultArea = new JTextArea(25, 50);
